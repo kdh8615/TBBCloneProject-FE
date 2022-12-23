@@ -1,9 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-  *{
-    background-color: black;
-    color: white;
+  root: {
+    --color1 : rgb(250, 100, 85);
+    --color2 : rgba(250, 240, 240);
   }
 `;
 
