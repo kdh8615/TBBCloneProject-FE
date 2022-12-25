@@ -1,14 +1,21 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Outlet } from "react-router-dom";
+import styled from "styled-components";
 
-function Layout({children}) {
+const Layout = ({ children }) => {
   return (
-    <div>
+    <AllLayOut>
       <Header />
-        {children}
+      <Outlet>{children}</Outlet>
       <Footer />
-    </div>
-  )
-}
+    </AllLayOut>
+  );
+};
 export default Layout;
+
+const AllLayOut = styled.div`
+  max-width: 1300px;
+  margin: 0 auto;
+`;
