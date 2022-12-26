@@ -12,6 +12,8 @@ const GlobalStyle = createGlobalStyle`
     --font1 : 12px;
     --font2 : 14px;
     --font3 : 16px;
+    --font4 : 18px;
+
   }
 `;
 
