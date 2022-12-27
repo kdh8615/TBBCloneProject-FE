@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 import all from "../../img/icons/all.svg"
 
@@ -26,17 +27,56 @@ function Menu() {
     music: "음악",
     movie: "영화 비디오",
     show: "공연"
-  }
-  const lists =[]
-  Object.keys(category).forEach(key => {
-    lists.push(<div><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</div>)
+  };
+  const lists1 = [];
+  const lists2 = [];
+  const lists3 = [];
+  const lists4 = [];
+  const lists5 = [];
+  Object.keys(category).forEach((key, i) => {
+    if (i < 5) lists1.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+    else if (i < 10) lists2.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+    else if (i < 15) lists3.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+    else if (i < 20) lists4.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+    else lists5.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
   });
   return (
-    <div>
-      <img src={all}/>
-      menu
-      {lists}
-    </div>
+    <MenuBar>
+      <ListBox>
+        <CategoryList>{lists1}</CategoryList>
+        <CategoryList>{lists2}</CategoryList>
+        <CategoryList>{lists3}</CategoryList>
+        <CategoryList>{lists4}</CategoryList>
+        <CategoryList>{lists5}</CategoryList>
+      </ListBox>
+    </MenuBar>
   )
 }
 export default Menu;
+
+const MenuBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  /* position: absolute; */
+  width: 100%;
+  /* height: 300px; */
+  background-color: white;
+`
+
+const ListBox = styled.div`
+  margin: auto;
+  display: flex;
+`
+const CategoryList = styled.div`
+  display: flex;
+  width: 230px;
+  flex-direction: column;
+`
+
+const ListEl = styled.div`
+  display: flex;
+  /* justify-content: center; */
+  text-align: center;
+  line-height:40px;
+  font-size: var(--font2);
+`
