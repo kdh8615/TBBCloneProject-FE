@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import Menu from "./Menu";
 
 function HomeHeader(){
   return(
     <Header>
+      <Menu />
       <ToggleBox>
         <Toggle>홈</Toggle>
         <Toggle>인기</Toggle>
