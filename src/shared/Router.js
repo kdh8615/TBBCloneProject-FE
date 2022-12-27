@@ -14,7 +14,6 @@ function Router(){
             <Route path="/" element={<Home />} />
             <Route path="detail/:id" element={<Detail />} />
             <Route path="planning" element={<Planning />} />
-            
           </Route>
         </Routes>
       </Layout>

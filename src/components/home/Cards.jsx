@@ -1,28 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { __getcontents } from "../../redux/modules/contentsSlice";
+
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
 import testImg from "../../img/testImg.png"
 
-function Cards(){
-  return(
-    <CardsBox>
-      <Thumbnail src={testImg} />
-    </CardsBox>
+import "./style.css"
+import CardsList from "../CardsList";
+
+function Cards() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { isLoading, error, contents } = useSelector((state) => state.contents)
+  useEffect(() => {
+    dispatch(__getcontents())
+  }, [dispatch])
+
+  if (isLoading) {
+    return <div style={{ textAlign: "center" }}>Loading....</div>
+  }
+  if (error) {
+    return <div style={{ textAlign: "center" }}>{error.message}</div>
+  }
+
+  return (
+    <HomeBody>
+      {contents.map(v=>{
+        return(
+          <CardsList 
+            key = {v.id}
+            contents = {v}
+          />
+        )
+      })}
+    </HomeBody>
+
   )
 }
-
 export default Cards;
 
-const CardsBox = styled.div`
-  width: 275px;
-
-`
-
-const Thumbnail = styled.img`
-  width: 275px;
-  height: 240px;
-  background-size: cover;
-  background-position: center;
-
+const HomeBody = styled.div`
+  display: flex;
 `

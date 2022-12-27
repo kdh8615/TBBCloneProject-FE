@@ -255,7 +255,7 @@ const InputSummary = styled.textarea`
   caret-color: var(--color1);
   resize: none;
   &:focus {
-  outline: 0;AlertMsg
+  outline: 0;
 `
 const AlertMsg = styled.div`
   color : var(--color1);
