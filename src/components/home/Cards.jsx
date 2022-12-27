@@ -44,4 +44,8 @@ export default Cards;
 
 const HomeBody = styled.div`
   display: flex;
+  width: 1160px;
+  flex-wrap: wrap;
+  margin: auto;
+  gap: var(--pad2);
 `

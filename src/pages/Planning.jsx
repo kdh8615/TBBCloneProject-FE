@@ -256,6 +256,7 @@ const InputSummary = styled.textarea`
   resize: none;
   &:focus {
   outline: 0;
+  }
 `
 const AlertMsg = styled.div`
   color : var(--color1);

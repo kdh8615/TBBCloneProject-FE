@@ -5,7 +5,7 @@ import HomeHeader from "../components/home/HomeHeader";
 function Home(){
   return(
     <div>
-      <HomeHeader />
+      <HomeHeader/>
       <Cards />
     </div>
   )

@@ -18,7 +18,7 @@ function CardsList(props) {
         <CardBot>
           <LeftBot>
             <Percent>{contents.percent}%</Percent>
-            <TotalSup>{contents.totalsupport}</TotalSup>
+            <TotalSup>{Number(contents.totalSupport).toLocaleString()}원</TotalSup>
           </LeftBot>
           <div>{contents.endDate}</div>
         </CardBot>
@@ -32,6 +32,10 @@ export default CardsList;
 
 const CardsBox = styled.div`
   width: 275px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad1);
 `
 const Thumbnail = styled.img`
   object-fit: cover;
@@ -53,6 +57,7 @@ const Title = styled.div`
 const Summary = styled.div`
   font-size: var(--font2);
   color: gray;
+  height: 75px;
 `
 const CardBot = styled.div`
   display: flex;

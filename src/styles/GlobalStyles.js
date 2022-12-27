@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
     --font3 : 16px;
     --font4 : 18px;
 
+    --widthHome : 1160px
   }
 `;
 

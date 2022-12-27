@@ -11,7 +11,6 @@ function HomeHeader(){
         <Toggle>마감임박</Toggle>
         <Toggle>공개예정</Toggle>
       </ToggleBox>
-
     </Header>
   )
 }
@@ -23,9 +22,18 @@ const Header = styled.div`
   justify-content: space-between;
   height: 50px;
   align-items: center;
+  position: relative;
+  top: 0;
+  position: -webkit-sticky;
+  position : sticky;
+  z-index: 5;
+  background-color: white;
+  box-shadow: 0px 5px 5px -1px rgb(200,200,200);
 `
 const ToggleBox = styled.div`
   display: flex;
+  width: var(--widthHome);
+  margin: auto;
 
 `
 
