@@ -12,6 +12,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 import titleImg from "../img/planning/title_img.png"
 import uploadImg from "../img/planning/upload_img.png"
+import summaryImg from "../img/planning/summary_img.png"
 
 function Planning() {
   const [plan, setPlan] = useState({
@@ -32,7 +33,7 @@ function Planning() {
     <PlanningForm>
       <Column>
         <DescL>
-          <ColTitle>프로젝트 카테고리<FaStarOfLife size={"10px"} color="var(--color1)" /></ColTitle>
+          <ColTitle>프로젝트 카테고리<FaStarOfLife size={"10px"} color="var(--color1)"/></ColTitle>
           <ColDescription>프로젝트 성격과 가장 일치하는 카테고리를 선택해주세요.<br></br>
             적합하지 않을 경우 운영자에 의해 조정될 수 있습니다.</ColDescription>
         </DescL>
@@ -69,6 +70,31 @@ function Planning() {
             value={plan.title}
             type="text" 
             placeholder="제목을 입력해주세요"></InputTitle>
+          <AlertMsg>
+            {(plan.title === "")? "필수입니다" : null}
+          </AlertMsg>
+        </ColDetail>
+      </Column>
+      <Column>
+        <DescL>
+          <ColTitle>프로젝트 요약<FaStarOfLife size={"10px"} color="var(--color1)" /></ColTitle>
+          <ColDescription>후원자 분들이 프로젝트를 빠르게 이해할 수 있도록 명확하고 간략하게 소개해주세요.</ColDescription>
+        </DescL>
+        <ColDetail>
+          <DescTitle><VscQuestion color="var(--color1)" /></DescTitle>
+          <DescR>
+            <DescDetail>프로젝트 요약은 어디에 표시되나요?</DescDetail>
+            <DesImg src={summaryImg} alt="" />
+          </DescR>
+          <InputSummary 
+            name="summary"
+            required
+            onChange={changeInput}
+            value={plan.summary}
+            placeholder="요약을 입력해주세요"></InputSummary>
+          <AlertMsg>
+            {(plan.summary === "")? "필수입니다." : null}
+          </AlertMsg>
         </ColDetail>
       </Column>
       <Column>
@@ -215,12 +241,27 @@ const InputTitle = styled.input`
   padding: var(--pad2);
   width: 610px;
   font-size: var(--font3);
-
   caret-color: var(--color1);
   &:focus {
   outline: 0;
   }
 `
+const InputSummary = styled.textarea`
+  border: 1px solid gray;
+  height: 50px;
+  padding: var(--pad2);
+  width: 610px;
+  font-size: var(--font3);
+  caret-color: var(--color1);
+  resize: none;
+  &:focus {
+  outline: 0;AlertMsg
+`
+const AlertMsg = styled.div`
+  color : var(--color1);
+  font-size: var(--font1);
+`
+
 const DescColumn = styled.div`
   display: flex;
   flex-direction: column;
