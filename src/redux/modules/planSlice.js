@@ -9,8 +9,8 @@ const initialState = {
     goalPrice: 0,
     startDate: "",
     endDate: "",
-    imageList: [],
-    delList: [],
+    thumbnailListPk: [],
+    contentImageListPk: [],
     content : "",
   }
 }

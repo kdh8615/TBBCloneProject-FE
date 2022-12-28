@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState}from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setPlan } from "../../redux/modules/planSlice";
 import moment from 'moment';
@@ -8,14 +8,22 @@ import styled from "styled-components";
 function DateForm() {
   const { plan } = useSelector(state => state.plan);
   const dispatch = useDispatch();
+  const [end, setEnd] = useState("");
+  const [start , setStart] = useState(""); 
 
   const changeStart = (e) => {
     const { value } = e.target
-    dispatch(setPlan({ startDate : value }))
+    setStart(value)
+    let day = value;
+    day += "T00:00:00"
+    dispatch(setPlan({ startDate : day }))
   }
   const changeEnd = (e) => {
     const { value } = e.target
-    dispatch(setPlan({ endDate : value }))
+    setEnd(value)
+    let day = value
+    day += "T00:00:00"
+    dispatch(setPlan({ endDate : day }))
   }
   const date = new Date();
   // +T00:00:00
@@ -26,7 +34,7 @@ function DateForm() {
           <input
             name="startDate"
             onChange={changeStart}
-            value={plan.startDate}
+            value={start}
             type="date"
             placeholder="시작 날짜를 선택해주세요"></input>
         </li>
@@ -39,7 +47,7 @@ function DateForm() {
           <input
             name="endDate"
             onChange={changeEnd}
-            value={plan.endDate}
+            value={end}
             type="date"
             placeholder="시작 날짜를 선택해주세요"></input>
         </li>
