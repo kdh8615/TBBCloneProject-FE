@@ -66,6 +66,7 @@ const DetailComment = () => {
               contents={List.contents}
               nickname={List.nickname}
               detailId={id}
+              createdAt={List.createdAt}
             />
           ))}
       </CommentView>

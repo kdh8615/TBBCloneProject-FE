@@ -41,7 +41,7 @@ const DetailUpdate = (props) => {
           </CommentSecondLine>
         </CommentLine>
         <div>{props.contents}</div>
-        <CommentDay>2022-12-26</CommentDay>
+        <CommentDay>{props?.createdAt?.split("T", 1)}</CommentDay>
       </CommentToT>
     );
   } else {
@@ -55,13 +55,16 @@ const DetailUpdate = (props) => {
             <div>{props.nickname}</div>
           </CommentFirstLine>
           <CommentSecondLine>
-            <button onClick={() => onClickUpdateComment(props.id)}>
+            <button
+              onClick={() => onClickUpdateComment(props.id)}
+              style={{ width: "80px" }}
+            >
               수정완료
             </button>
           </CommentSecondLine>
         </CommentLine>
-        <input type="text" name="contents" onChange={onChangeUpdate}></input>
-        <CommentDay>2022-12-26</CommentDay>
+        <UpdateInput type="text" name="contents" onChange={onChangeUpdate} />
+        <CommentDay>{props?.createdAt?.split("T", 1)}</CommentDay>
       </CommentToT>
     );
   }
@@ -71,6 +74,11 @@ export default DetailUpdate;
 
 const CommentToT = styled.div`
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+`;
+
+const UpdateInput = styled.input`
+  width: 300px;
+  height: 25px;
 `;
 
 const CommentLine = styled.div`

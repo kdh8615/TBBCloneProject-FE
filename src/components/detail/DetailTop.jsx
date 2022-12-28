@@ -27,7 +27,6 @@ const DetailTop = () => {
   }, []);
 
   const detailView = useSelector((state) => state.details.detail);
-  console.log(detailView);
 
   const startDay = detailView?.startDate?.split("T", 1)[0];
   const endDay = detailView?.endDate?.split("T", 1)[0];

@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { __getDetail } from "../../redux/modules/detailSlice";
 
 const DetailView = () => {
-  return (
-    <div>
-      <FirstDiv>
-        <li />
-      </FirstDiv>
-    </div>
-  );
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(__getDetail(id));
+  }, []);
+
+  const detailContent = useSelector((state) => state.details.detail);
+  let codes = detailContent?.content;
+  return <div dangerouslySetInnerHTML={{ __html: codes }}></div>;
 };
 
 export default DetailView;
