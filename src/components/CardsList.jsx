@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import testImg from "../img/testImg.png"
 
 
 function CardsList(props) {
   const { contents } = props;
+  const navigate = useNavigate();
+  console.log(contents?.endDate.split("T"))
   return (
-      <CardsBox>
-        <Thumbnail src={testImg}/>
+    <CardsBox >
+        <Thumbnail src={testImg} onClick={()=>navigate(`detail/${contents?.projectId}`)}/>
         <CardTop>
           <div>{contents?.category}</div>
           &nbsp;|&nbsp;
@@ -25,7 +28,7 @@ function CardsList(props) {
         <PercentBar>
           <PercentValue per={contents?.percent} />
         </PercentBar>
-      </CardsBox>
+    </CardsBox>
   )
 }
 export default CardsList;

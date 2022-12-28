@@ -31,7 +31,6 @@ function Planning() {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
   const { plan } = useSelector(state => state.plan);
-
   const changeUploadFile = async (event) => {
     const { name, files } = event.target;
 		setImages([...images, ...files]);
@@ -55,6 +54,7 @@ function Planning() {
   };
 
   const createHandler = () =>{
+
     dispatch(__addPlan(plan))
   }
 

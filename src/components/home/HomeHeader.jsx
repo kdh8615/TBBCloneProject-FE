@@ -24,7 +24,6 @@ function HomeHeader() {
         <Toggle>마감임박</Toggle>
         <Toggle>공개예정</Toggle>
       </ToggleBox>
-
     </Header>
   )
 }
