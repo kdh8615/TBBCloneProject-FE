@@ -1,19 +1,63 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { setCookie } from "../../api/cookie";
 import LogoSvg from "../../styles/LogoSvg";
+import { postSignIn } from "../../api/signAPI";
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const [signInTotal, setSignInTotal] = useState({
+    loginId: "",
+    password: "",
+  });
+
+  const onChangeSignIn = (e) => {
+    const { name, value } = e.target;
+    setSignInTotal({ ...signInTotal, [name]: value });
+  };
+
+  const onSubmitSignIn = (e) => {
+    e.preventDefault();
+    if (signInTotal.loginId === "") {
+      alert("이메일을 입력하세요");
+    } else if (signInTotal.password === "") {
+      alert("비밀번호를 입력해주세요");
+    } else {
+      postSignIn(signInTotal).then((res) => {
+        if (res === undefined) {
+          navigate("/login");
+        } else {
+          navigate("/");
+          setCookie("id", res.headers.authorization, {
+            path: "/",
+            max: 1800,
+          });
+        }
+      });
+    }
+  };
+
   return (
     <LoginTotal>
       <LoginView>
-        <LoginViewIn>
+        <LoginViewIn onSubmit={onSubmitSignIn}>
           <LogoSvg></LogoSvg>
           <LoginTitle>이메일로 로그인</LoginTitle>
           <LoginText>이메일 주소</LoginText>
-          <LoginInput placeholder="이메일 주소를 입력해주세요"></LoginInput>
+          <LoginInput
+            placeholder="이메일 주소를 입력해주세요"
+            type="text"
+            name="loginId"
+            onChange={onChangeSignIn}
+          ></LoginInput>
           <LoginText>비밀번호</LoginText>
-          <LoginInput placeholder="비밀번호를 입력해주세요"></LoginInput>
+          <LoginInput
+            placeholder="비밀번호를 입력해주세요"
+            type="password"
+            name="password"
+            onChange={onChangeSignIn}
+          ></LoginInput>
           <LoginButton>로그인</LoginButton>
           <UnderBar>다른 방법으로 로그인</UnderBar>
           <NewCreate>
@@ -53,7 +97,7 @@ const LoginTitle = styled.h2`
   font-size: 25px;
 `;
 
-const LoginViewIn = styled.div`
+const LoginViewIn = styled.form`
   width: 60%;
   padding-left: 100px;
   display: flex;
