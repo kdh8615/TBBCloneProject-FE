@@ -9,9 +9,10 @@ export const __getDetail = createAsyncThunk(
   "detail/get",
   async (payload, thunkAPI) => {
     try {
-      const data = await instanceAxios.get(`project/${payload}/details`);
-      console.log(data);
-      return thunkAPI.fulfillWithValue(data.data);
+      const {
+        data: { data },
+      } = await instanceAxios.get(`project/${payload}/details`);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -24,7 +25,6 @@ export const detailSlice = createSlice({
   extraReducers: {
     [__getDetail.pending]: (state) => {},
     [__getDetail.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.detail = action.payload;
     },
     [__getDetail.rejected]: (state, action) => {},

@@ -28,11 +28,12 @@ const DetailComment = () => {
     setWriteComment({ ...writeComment, [name]: value });
   };
 
-  const onClickWriteComment = () => {
+  const onClickWriteComment = async () => {
     if (writeComment.contents === "") {
       alert("댓글을 입력해 주세요!");
     } else {
-      dispatch(__postComments(writeComment));
+      await dispatch(__postComments(writeComment));
+      dispatch(__getComments(id));
       setWriteComment({ ...writeComment, contents: "" });
     }
   };
@@ -55,19 +56,18 @@ const DetailComment = () => {
         </button>
       </CommentWrite>
       <CommentView>
-        {/* {commentList &&
-          commentList?.map(
-            (List) => (
-              <DetailUpdate
-                key={List.id}
-                id={List.id}
-                del={onClickDeleteComment}
-                contents={List.contents}
-                nickname={List.nickname}
-                detailId={List.detailId}
-              />
-            )
-          )} */}
+        {commentList &&
+          commentList?.map((List) => (
+            <DetailUpdate
+              key={List.id}
+              id={List.commentId}
+              del={onClickDeleteComment}
+              commentId={List.commentId}
+              contents={List.contents}
+              nickname={List.nickname}
+              detailId={id}
+            />
+          ))}
       </CommentView>
     </div>
   );
