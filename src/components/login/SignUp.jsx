@@ -156,7 +156,9 @@ const SignUp = () => {
   return (
     <SignUpTotal>
       <SignUpHeader>
-        <LogoSvg />
+        <Link to="/">
+          <LogoSvg />
+        </Link>
       </SignUpHeader>
       <SignUpHr />
       <form onSubmit={onSubmitHandler}>
@@ -167,30 +169,61 @@ const SignUp = () => {
             placeholder="사용하실 이름을 입력해주세요."
             type="text"
             onChange={onChangeNickname}
+            maxLength={20}
           />
+          <span
+            style={{ color: isNickname ? "skyblue" : "red", fontSize: "12px" }}
+          >
+            {nicknameMsg}
+          </span>
           <SignTitle>이메일 주소</SignTitle>
           <SignInputTotal
             placeholder="이메일 주소를 입력해주세요."
             type="email"
             onChange={onChangeLoginId}
           />
-
+          <span
+            style={{ color: isLoginId ? "skyblue" : "red", fontSize: "12px" }}
+          >
+            {loginIdMsg}
+          </span>
           <SignInputTotal
             placeholder="이메일 주소를 확인합니다."
             type="email"
             onChange={onChangeLoginIdSub}
           />
+          <span
+            style={{
+              color: isLoginIdCheck ? "skyblue" : "red",
+              fontSize: "12px",
+            }}
+          >
+            {loginIdCheckMsg}
+          </span>
           <SignTitle>비밀번호</SignTitle>
           <SignInputTotal
             placeholder="비밀번호를 입력해주세요."
             type="password"
             onChange={onChangePassword}
           />
+          <span
+            style={{ color: isPassword ? "skyblue" : "red", fontSize: "12px" }}
+          >
+            {passwordMsg}
+          </span>
           <SignInputTotal
             placeholder="비밀번호를 확인합니다."
             type="password"
             onChange={onChangePasswordSub}
           />
+          <span
+            style={{
+              color: isPasswordCheck ? "skyblue" : "red",
+              fontSize: "12px",
+            }}
+          >
+            {passwordCheckMsg}
+          </span>
           <SignCheckBox>
             <TotalCheck>
               <SignCheckInput
