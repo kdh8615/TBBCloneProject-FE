@@ -1,36 +1,68 @@
-import React, { useState } from "react";
+import React, { useRef,useState } from "react";
 import styled, { keyframes } from "styled-components";
-import PlanEditor from "../components/PlanEditor";
 import { NumericFormat } from 'react-number-format';
+
+import { Editor } from "@toast-ui/react-editor";
+import '@toast-ui/editor/dist/toastui-editor-viewer'
+import '@toast-ui/editor/dist/toastui-editor.css'
 
 import { VscQuestion } from 'react-icons/vsc';
 import { VscInfo } from 'react-icons/vsc';
 
 import { FaStarOfLife } from 'react-icons/fa'
-import { IoIosArrowDown } from "react-icons/io";
-
 
 import titleImg from "../img/planning/title_img.png"
 import uploadImg from "../img/planning/upload_img.png"
 import summaryImg from "../img/planning/summary_img.png"
 
+import { category } from "../components/feature/category";
+
+import SelectCategory from "../components/planning/SelectCategory";
+import TitleForm from "../components/planning/TitleForm";
+import SummaryForm from "../components/planning/SummaryForm";
+import PlanEditor from "../components/planning/PlanEditor";
+import MoneyForm from "../components/planning/MoneyForm";
+import DateForm from "../components/planning/DateForm";
+import ImageForm from "../components/planning/ImageForm";
+import { useDispatch , useSelector} from "react-redux";
+import { __addPlan } from "../redux/modules/planSlice";
+
 function Planning() {
-  const [plan, setPlan] = useState({
-    title: "",
-    category :"",
-    summary: "",
-    goalPrice: 0,
-    startDate: "",
-    endDate: "",
-    imageList: [],
-    delList: []
-  })
-  const changeInput = (e) => {
-    const { name, value } = e.target
-    setPlan({ ...plan, [name]: value })
+  const [images, setImages] = useState([]);
+  const dispatch = useDispatch();
+  const { plan } = useSelector(state => state.plan);
+
+  const changeUploadFile = async (event) => {
+    const { name, files } = event.target;
+		setImages([...images, ...files]);
+  };
+
+	const handleOnRemoveImage = (index) => {
+		const newImages = [...images];
+		newImages.splice(index, 1);
+		setImages(newImages);
+	};
+
+  // Append FormData
+  // const data = new FormData();
+  // images.map((image) => {
+  //   data.append("images[]", image);
+  // });
+  const editorRef = useRef();
+
+  const onUploadImage = async (blob, callback) => {
+    console.log(blob)
+  };
+
+  const createHandler = () =>{
+    dispatch(__addPlan(plan))
   }
+
   return (
     <PlanningForm>
+      <PlanHeaderTop>
+        <HeadBtn onClick={createHandler}>기획하기</HeadBtn>
+      </PlanHeaderTop>
       <Column>
         <DescL>
           <ColTitle>프로젝트 카테고리<FaStarOfLife size={"10px"} color="var(--color1)"/></ColTitle>
@@ -38,18 +70,7 @@ function Planning() {
             적합하지 않을 경우 운영자에 의해 조정될 수 있습니다.</ColDescription>
         </DescL>
         <div>
-          <DescTitle>카테고리</DescTitle>
-          <SelectArrow>
-            <CategorySelect
-              name="category"
-              required
-              onChange={changeInput}
-              value={plan.category}>
-              <option>보드게임・TRPG</option>
-            </CategorySelect>
-          </SelectArrow>
-        </div>
-        <div>
+          <SelectCategory />
         </div>
       </Column>
       <Column>
@@ -63,16 +84,9 @@ function Planning() {
             <DescDetail>제목은 어디에 쓰이나요?</DescDetail>
             <DesImg src={titleImg} alt="" />
           </DescR>
-          <InputTitle 
-            name="title"
-            required
-            onChange={changeInput}
-            value={plan.title}
-            type="text" 
-            placeholder="제목을 입력해주세요"></InputTitle>
-          <AlertMsg>
-            {(plan.title === "")? "필수입니다" : null}
-          </AlertMsg>
+
+          <TitleForm />
+
         </ColDetail>
       </Column>
       <Column>
@@ -86,17 +100,10 @@ function Planning() {
             <DescDetail>프로젝트 요약은 어디에 표시되나요?</DescDetail>
             <DesImg src={summaryImg} alt="" />
           </DescR>
-          <InputSummary 
-            name="summary"
-            required
-            onChange={changeInput}
-            value={plan.summary}
-            placeholder="요약을 입력해주세요"></InputSummary>
-          <AlertMsg>
-            {(plan.summary === "")? "필수입니다." : null}
-          </AlertMsg>
+          <SummaryForm />
         </ColDetail>
       </Column>
+
       <Column>
         <DescL>
           <ColTitle>프로젝트 대표 이미지<FaStarOfLife size={"10px"} color="var(--color1)" /></ColTitle>
@@ -104,8 +111,8 @@ function Planning() {
         </DescL>
         <ColDetail>
           <div><VscQuestion color="var(--color1)" /></div>
-          <DesImg src={uploadImg} alt="" />
-          <input type="file" accept=".jpg .jpeg .png"></input>
+          <ImgProd src={uploadImg} alt="" />
+            <ImageForm />
         </ColDetail>
       </Column>
 
@@ -118,6 +125,7 @@ function Planning() {
           <PlanEditor />
         </ColDetail>
       </Column>
+
       <Column>
         <DescL>
           <ColTitle>목표금액<FaStarOfLife size={"10px"} color="var(--color1)" /></ColTitle>
@@ -139,74 +147,46 @@ function Planning() {
         </DescL>
         <DescColumn>
           <DescTitle>목표금액</DescTitle>
-          <InputMoney
-            required
-            name="goalPrice"
-            onChange={changeInput}
-            value={plan.goalPrice}
-            thousandSeparator=","
-            allowLeadingZeros
-            suffix={'원'}
-            placeholder="50만원 이상의 금액을 입력해주세요" />
-          <GrayBox>
-            <CalcList
-              style={{
-                borderBottom: "1px solid gray",
-              }}>
-              <DescDetail>목표 금액 달성시 예상 수령액</DescDetail>
-              <RedCalc>0원</RedCalc>
-            </CalcList>
-            <CalcList>
-              <CalcTitle>총 수수료</CalcTitle>
-              <CalcResult>0원</CalcResult>
-            </CalcList>
-            <CalcList>
-              <CalcTitle>결제대행 수수료(총 결제액의 3% + VAT)</CalcTitle>
-              <CalcResult>0원</CalcResult>
-            </CalcList>
-            <CalcList>
-              <CalcTitle>Basic 요금제 수수료(총 결제 금액의 5% + VAT)</CalcTitle>
-              <CalcResult>0원</CalcResult>
-            </CalcList>
-          </GrayBox>
+          <MoneyForm />
         </DescColumn>
       </Column>
 
       <Column>
         <DescL>
           <ColTitle>펀딩일정<FaStarOfLife size={"10px"} color="var(--color1)" /></ColTitle>
-          <ColDescription>설정한 일시가 되면 펀딩이 자동 시작됩니다. 펀딩 시작 전까지 날짜를 변경할 수 있고, 즉시 펀딩을 시작할 수도 있습니다.</ColDescription>
+          <ColDescription>
+            설정한 일시가 되면 펀딩이 자동 시작됩니다. <br></br>
+            펀딩 시작 전까지 날짜를 변경할 수 있고, 즉시 펀딩을 시작할 수도 있습니다.
+          </ColDescription>
         </DescL>
         <DescR>
-          <TimeLine>
-          <li>
-            <TLContent>시작일</TLContent>
-            <input
-              name="startDate"
-              onChange={changeInput}
-              value={plan.startDate} 
-              type="date" 
-              placeholder="시작 날짜를 선택해주세요"></input>
-          </li>
-
-          <li>
-            <TLContent>종료일</TLContent>
-            <input 
-              name="endDate"
-              onChange={changeInput}
-              value={plan.endDate} 
-              type="date" 
-              placeholder="시작 날짜를 선택해주세요"></input>
-          </li>
-          </TimeLine>
-
-
+          <DateForm />
         </DescR>
       </Column>
     </PlanningForm>
   )
 }
 export default Planning;
+
+
+const PlanHeaderTop = styled.div`
+  height: 100px;
+  position: relative;
+  width: 100%;
+  top: 0;
+  background-color: white;
+  position: sticky;
+`
+// const PlanHeadermiddle = styled.div`
+//   height: 50px;
+//   background-color: white;
+// `
+
+const HeadBtn = styled.button`
+  width: 150px;
+  height: 50px;
+  border: none;
+`
 
 const Column = styled.div`
   display: flex;
@@ -224,9 +204,11 @@ const ColTitle = styled.div`
 `
 const ColDescription = styled.div`
   font-size : var(--font2);
+  line-height: 1.5;
 `
 
 const ColDetail = styled.div`
+  width:630px;
 `
 
 const PlanningForm = styled.div`
@@ -258,10 +240,7 @@ const InputSummary = styled.textarea`
   outline: 0;
   }
 `
-const AlertMsg = styled.div`
-  color : var(--color1);
-  font-size: var(--font1);
-`
+
 
 const DescColumn = styled.div`
   display: flex;
@@ -296,53 +275,13 @@ const DescDetail = styled.div`
 const DesImg = styled.img`
   width: 300px;
   background-size: cover;
+`
+const ImgProd = styled.img`
+  width: 550px;
+  background-size: cover;
 
 `
 
-const rota = keyframes`
-  0%{ transform:rotate(0);};
-  100%{ transform:rotate(180deg);};
-`
-const CategorySelect = styled.select`
-  padding: var(--pad1);
-  border-color: rgb(200,200,200);
-  /* appearance: none; */
-  background:url(..img/arrowDown.svg);
-  /* &:focus {
-    rotate: calc(180deg);
-    transition: 1s;
-  }
-  & > p {
-    rotate: calc(-180deg);
-    transition: 1s;
-  } */
-`
-const SelectArrow = styled.div`
-  
-`
-// select{
-//   position: relative;
-//   width: 100%;
-//   appearance: none;
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-// }
-// .container {
-//     position: relative;
-//     width: 70px;
-// }
-// .container:after {
-// content: "";
-// position: absolute;
-// right: 8px;
-// top: 12px;
-// width: 5px;
-// height: 5px;
-// border-top: 2px solid skyblue;
-// border-left: 2px solid skyblue;
-// pointer-events: none;
-// transform: translateY(-50%) rotate(-135deg);
-// }
 
 const WarnMsg = styled.div`
   background-color: var(--color2);
@@ -350,79 +289,11 @@ const WarnMsg = styled.div`
   padding: var(--pad2);
   margin-top: var(--pad2);
 `
-const GrayBox = styled.div`
-  background-color: rgb(240, 240, 240) ;
-  padding: var(--pad2);
-`
-const RedCalc = styled.div`
-  color: var(--color1);
-  font-size: var(--font4);
-  font-weight: bold;
-`
-
-const verLine = styled.div`
-  position: absolute;
-  left:0.2em;
-  top:0;
-  width:2px;/*線の太さ*/
-  height:100px;/*はじめは高さを0に*/
-  background: #ccc;
-  content:'';
-`
-const CalcList = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-top: var(--pad1);
-`
-
-const CalcTitle = styled.div`
-  color: gray;
-  font-size: var(--font1);
-`
-
-const CalcResult = styled.div`
-  font-size: var(--font1);
-`
-
-const InputMoney = styled(NumericFormat)`
-  text-align: right;
-  border:1px solid var(--color1);
-  padding: var(--pad2);
-  margin-bottom: var(--pad2);
-  width: 580px;
-  font-size: var(--font3);
-  caret-color: var(--color1);
-  &:focus {
-  outline: 0;
-  }
-`
 const InfoLi = styled.li`
   font-size: var(--font1);
   color: gray;
   margin: var(--pad1);
 `
-const TimeLine = styled.ul`
-  list-style: none;
-  & > li{
-    transform: scale(1.0);
-  }
-  & > li::after{
-    content: "";
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    height: 100%;
-    border-left: 1px solid black;
-  }
-`
-const TLContent = styled.div`
-  margin: 1rem;
-  font-weight:bold;
-  font-size: var(--font2);
-  color: black;
-
-`
-
 
 // .timeline {
 //   list-style: none;

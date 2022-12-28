@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import all from "../../img/icons/all.svg"
-
 function Menu() {
   const category = {
     all: "전체",
