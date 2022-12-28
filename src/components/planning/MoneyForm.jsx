@@ -11,9 +11,11 @@ function TitleForm() {
   const [price, setPrice] = useState(0);
   const changeInput = (e) => {
     let { value } = e.target
-    dispatch(setPlan({ goalPrice : value }))
-    value = value.replaceAll(",", "")
-    setPrice(Number(value))
+    setPrice(value)
+    let num = value.replaceAll(",", "")
+    num = Number(num)
+    dispatch(setPlan({ goalPrice : num }))
+    console.log(num)
   }
   
   return (
@@ -22,7 +24,7 @@ function TitleForm() {
         required
         name="goalPrice"
         onChange={changeInput}
-        value={plan.goalPrice}
+        value={price}
         thousandSeparator=","
         allowLeadingZeros
         // suffix={'원'}
