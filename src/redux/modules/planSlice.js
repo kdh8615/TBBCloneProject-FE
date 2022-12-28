@@ -20,7 +20,8 @@ export const __addPlan = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log(payload)
-      await instanceAxios.post('project',payload)
+      const data = await instanceAxios.post('project',payload)
+      console.log(data)
       return thunkAPI.fulfillWithValue("")
     } catch (error) {
       return thunkAPI.rejectWithValue(error)

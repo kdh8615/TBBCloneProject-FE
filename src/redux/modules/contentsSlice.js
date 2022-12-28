@@ -11,9 +11,9 @@ export const __getcontents = createAsyncThunk(
   "contents/get",
   async (payload, thunkAPI) => {
     try {
-      const data = await instanceAxios.get('data')
-      console.log(data.data)
-      return thunkAPI.fulfillWithValue(data.data)
+      const data = await instanceAxios.get('/project/list?filter=latest&category=')
+      console.log(data.data.data)
+      return thunkAPI.fulfillWithValue(data.data.data)
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
     }

@@ -5,7 +5,7 @@ export const baseURL = process.env.REACT_APP_SERVER;
 
 export const instanceAxios = axios.create({
   baseURL: baseURL,
-  // headers: { "Access-Control-Allow-Origin": "*" },
+  headers: { "Access-Control-Allow-Origin": "*" },
 });
 
 instanceAxios.interceptors.request.use((config) => {

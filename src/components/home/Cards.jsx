@@ -28,7 +28,7 @@ function Cards() {
 
   return (
     <HomeBody>
-      {contents.map(v=>{
+      {contents?.map(v=>{
         return(
           <CardsList 
             key = {v.id}
@@ -37,7 +37,6 @@ function Cards() {
         )
       })}
     </HomeBody>
-
   )
 }
 export default Cards;

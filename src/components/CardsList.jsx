@@ -9,21 +9,21 @@ function CardsList(props) {
       <CardsBox>
         <Thumbnail src={testImg}/>
         <CardTop>
-          <div>{contents.category}</div>
+          <div>{contents?.category}</div>
           &nbsp;|&nbsp;
-          <div>{contents.nickname}</div>
+          <div>{contents?.nickname}</div>
         </CardTop>
-        <Title>{contents.title}</Title>
-        <Summary>{contents.summary}</Summary>
+        <Title>{contents?.title}</Title>
+        <Summary>{contents?.summary}</Summary>
         <CardBot>
           <LeftBot>
-            <Percent>{contents.percent}%</Percent>
-            <TotalSup>{Number(contents.totalSupport).toLocaleString()}원</TotalSup>
+            <Percent>{contents?.percent}%</Percent>
+            <TotalSup>{Number(contents?.totalSupport).toLocaleString()}원</TotalSup>
           </LeftBot>
-          <div>{contents.endDate}</div>
+          <div>{contents?.endDate}</div>
         </CardBot>
         <PercentBar>
-          <PercentValue per={contents.percent} />
+          <PercentValue per={contents?.percent} />
         </PercentBar>
       </CardsBox>
   )
