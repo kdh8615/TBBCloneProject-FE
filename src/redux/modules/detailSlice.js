@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { instanceAxios } from "../../api/axiosAPI";
 
 const initialState = {
@@ -19,6 +19,20 @@ export const __getDetail = createAsyncThunk(
   }
 );
 
+export const __postMoney = createAsyncThunk(
+  "detail/postMoney",
+  async (payload, thunkAPI) => {
+    try {
+      await instanceAxios.post(`/project/supporting/${payload.id}`, {
+        supportAmount: payload.money,
+      });
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const detailSlice = createSlice({
   name: "detail",
   initialState,
@@ -28,6 +42,11 @@ export const detailSlice = createSlice({
       state.detail = action.payload;
     },
     [__getDetail.rejected]: (state, action) => {},
+    [__postMoney.pending]: (state) => {},
+    [__postMoney.fulfilled]: (state, action) => {
+      state.detail.totalSupport =
+        state.detail.totalSupport + action.payload.money;
+    },
   },
 });
 

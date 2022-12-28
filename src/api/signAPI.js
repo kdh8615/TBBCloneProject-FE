@@ -4,13 +4,11 @@ import { instanceAxios } from "./axiosAPI";
 export const postSignIn = async (post) => {
   try {
     const data = await instanceAxios.post("member/login", post);
-    console.log(data);
+
     if (data.status === 200) {
       return data;
     } else {
       alert("아이디, 비밀번호를 잘못입력하셨습니다.");
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
