@@ -42,7 +42,9 @@ const SignIn = () => {
     <LoginTotal>
       <LoginView>
         <LoginViewIn onSubmit={onSubmitSignIn}>
-          <LogoSvg></LogoSvg>
+          <Link to="/">
+            <LogoSvg />
+          </Link>
           <LoginTitle>이메일로 로그인</LoginTitle>
           <LoginText>이메일 주소</LoginText>
           <LoginInput
