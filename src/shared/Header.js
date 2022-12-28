@@ -23,8 +23,8 @@ const Header = () => {
           <LogoSvg />
         </Link>
         <HeaderTwo>
-        <Link to="/planning" style={{ textDecoration: "none" }}>
-          <h5>프로젝트 올리기</h5>{" "}
+          <Link to="/planning" style={{ textDecoration: "none" }}>
+            <h5>프로젝트 올리기</h5>{" "}
           </Link>
           {/* 이부분은 나중에 글쓰기 페이지 완성했을때 Link로 변경*/}
           <HeaderIconDiv>
@@ -48,7 +48,9 @@ const Header = () => {
           <HeaderIconDiv>
             <FaUserCircle style={{ color: "#e5e5e5" }} size="25px" />
             <Link to="/" style={{ textDecoration: "none" }}>
-              <HeaderIconFont onClick={logOut}>로그아웃</HeaderIconFont>
+              <HeaderIconFont onClick={logOut} style={{ marginLeft: "20px" }}>
+                로그아웃
+              </HeaderIconFont>
             </Link>
           </HeaderIconDiv>
         </HeaderTwo>

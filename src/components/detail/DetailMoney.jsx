@@ -1,14 +1,22 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { __postMoney } from "../../redux/modules/detailSlice";
 
 const DetailMoney = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
   const [money, setMoney] = useState(0);
   const onChangeMoney = (e) => {
     const { name, value } = e.target;
     setMoney(parseInt(value));
   };
-  // console.log(typeof money);
-  // console.log(money);
+
+  const onClickMoney = () => {
+    dispatch(__postMoney({ id, money }));
+  };
+
   return (
     <div>
       <MoneyView>
@@ -35,7 +43,7 @@ const DetailMoney = () => {
             +10만 원
           </button>
         </MoneyButton>
-        <MoneyGo>
+        <MoneyGo onClick={() => onClickMoney()}>
           <h3>후원하기</h3>
         </MoneyGo>
       </MoneyView>
