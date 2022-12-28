@@ -1,18 +1,35 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { __getcontents, setCategory } from "../../redux/modules/contentsSlice";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import testImg from "../img/testImg.png"
+import testImg from "../../img/testImg.png"
+import { category } from "../feature/category";
 
+import { diffDate } from "../feature/dateCalc";
+
+import {FaHeart, FaRegHeart } from "react-icons/fa";
 
 function CardsList(props) {
   const { contents } = props;
   const navigate = useNavigate();
-  console.log(contents?.endDate.split("T"))
+  const dispatch = useDispatch();
+
+  const filitering = async (key) =>{
+    await dispatch(setCategory(key))
+  }
+
+  const date = diffDate(contents?.endDate);
+
   return (
     <CardsBox >
+      <LikeBtn />
         <Thumbnail src={testImg} onClick={()=>navigate(`detail/${contents?.projectId}`)}/>
         <CardTop>
-          <div>{contents?.category}</div>
+          <div
+            onClick={()=>{filitering(contents?.category)}}>
+            {category[`${contents?.category}`]}
+          </div>
           &nbsp;|&nbsp;
           <div>{contents?.nickname}</div>
         </CardTop>
@@ -23,7 +40,7 @@ function CardsList(props) {
             <Percent>{contents?.percent}%</Percent>
             <TotalSup>{Number(contents?.totalSupport).toLocaleString()}원</TotalSup>
           </LeftBot>
-          <div>{contents?.endDate}</div>
+          <DiffDate>{date}</DiffDate>
         </CardBot>
         <PercentBar>
           <PercentValue per={contents?.percent} />
@@ -32,6 +49,15 @@ function CardsList(props) {
   )
 }
 export default CardsList;
+
+const LikeBtn = styled(FaRegHeart)`
+  display: flex;
+  position: relative;
+  z-index: 10;
+  top: 40px;
+  left: 240px;
+  ;
+`
 
 const CardsBox = styled.div`
   width: 275px;
@@ -65,10 +91,14 @@ const Summary = styled.div`
 const CardBot = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  text-align: end;
 `
 
 const TotalSup = styled.div`
   font-size: var(--font1);
+  display: flex;
+  align-items: flex-end;
 `
 const LeftBot = styled.div`
   display: flex;
@@ -93,4 +123,8 @@ const PercentValue = styled.div`
   background: var(--color1);
   height: 5px;
   width: ${props => props.per}%;
+`
+const DiffDate = styled.div`
+  font-size: var(--font1);
+  font-weight: bold;
 `

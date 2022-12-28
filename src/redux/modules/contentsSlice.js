@@ -14,7 +14,8 @@ export const __getcontents = createAsyncThunk(
   "contents/get",
   async (payload, thunkAPI) => {
     try {
-      const data = await instanceAxios.get('/project/list?filter=latest&category=all')
+      const {cate, filt } = payload
+      const data = await instanceAxios.get(`/project/list?filter=${filt}&category=${cate}`)
       console.log(data.data.data)
       return thunkAPI.fulfillWithValue(data.data.data)
     } catch (error) {
@@ -23,6 +24,7 @@ export const __getcontents = createAsyncThunk(
   }
 )
 
+
 export const contentsSlice = createSlice({
   name: "contents",
   initialState,
@@ -30,6 +32,9 @@ export const contentsSlice = createSlice({
     // addContent: (state, action) => {
     //   axios.post(`${DB}/contents`, action.payload)
     // },
+    setCategory:(state,action) =>{
+      state.cate = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -47,5 +52,5 @@ export const contentsSlice = createSlice({
   },
 })
 
-export const { } = contentsSlice.actions
+export const { setCategory } = contentsSlice.actions
 export default contentsSlice.reducer

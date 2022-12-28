@@ -6,17 +6,14 @@ import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
-import testImg from "../../img/testImg.png"
-
-import "./style.css"
-import CardsList from "../CardsList";
+import CardsList from "./CardsList";
 
 function Cards() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { isLoading, error, contents } = useSelector((state) => state.contents)
+  const { isLoading, error, contents , cate, filt } = useSelector((state) => state.contents)
   useEffect(() => {
-    dispatch(__getcontents())
+    dispatch(__getcontents({cate, filt}))
   }, [dispatch])
 
   if (isLoading) {
@@ -25,6 +22,7 @@ function Cards() {
   if (error) {
     return <div style={{ textAlign: "center" }}>{error.message}</div>
   }
+  console.log(contents)
 
   return (
     <HomeBody>

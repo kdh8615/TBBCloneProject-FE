@@ -1,8 +1,6 @@
 import React, { useRef,useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { NumericFormat } from 'react-number-format';
 
-import { Editor } from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor-viewer'
 import '@toast-ui/editor/dist/toastui-editor.css'
 
@@ -14,8 +12,6 @@ import { FaStarOfLife } from 'react-icons/fa'
 import titleImg from "../img/planning/title_img.png"
 import uploadImg from "../img/planning/upload_img.png"
 import summaryImg from "../img/planning/summary_img.png"
-
-import { category } from "../components/feature/category";
 
 import SelectCategory from "../components/planning/SelectCategory";
 import TitleForm from "../components/planning/TitleForm";
@@ -42,19 +38,7 @@ function Planning() {
 		setImages(newImages);
 	};
 
-  // Append FormData
-  // const data = new FormData();
-  // images.map((image) => {
-  //   data.append("images[]", image);
-  // });
-  const editorRef = useRef();
-
-  const onUploadImage = async (blob, callback) => {
-    console.log(blob)
-  };
-
   const createHandler = () =>{
-
     dispatch(__addPlan(plan))
   }
 

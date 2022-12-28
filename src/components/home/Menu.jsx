@@ -1,11 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setCategory, __getcontents } from "../../redux/modules/contentsSlice";
 
 import { category } from "../feature/category";
 
 function Menu() {
-  const { cate }= useSelector(state => state.contents)
+  const { cate, filt }= useSelector(state => state.contents)
+  const dispatch = useDispatch();
   console.log(cate)
   const lists1 = [];
   const lists2 = [];
@@ -13,27 +15,39 @@ function Menu() {
   const lists4 = [];
   const lists5 = [];
 
-  // const filitering = () =>{
-    
-  // }
+  const filitering = async (key) =>{
+    await dispatch(setCategory(key))
+  }
+  useEffect(()=>{
+    dispatch(__getcontents({cate , filt}))
+  },[dispatch, cate, filt])
 
   Object.keys(category).forEach((key, i) => {
     switch(true){
       case i < 5:
-        lists1.push(<ListEl
+        lists1.push(<ListEl 
+          onClick={()=>{filitering(key)}}
           ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
         break;
       case i < 10 :
-        lists2.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+        lists2.push(<ListEl
+          onClick={()=>{filitering(key)}}
+          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
         break;
       case i < 15 :
-        lists3.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+        lists3.push(<ListEl
+          onClick={()=>{filitering(key)}}
+          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
         break;
       case i < 20 :
-        lists4.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+        lists4.push(<ListEl
+          onClick={()=>{filitering(key)}}
+          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
         break;
       default :
-        lists5.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+        lists5.push(<ListEl
+          onClick={()=>{filitering(key)}}
+          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
         break;
     }
   });
@@ -76,4 +90,9 @@ const ListEl = styled.div`
   text-align: center;
   line-height:40px;
   font-size: var(--font2);
+  font-weight: normal;
+  cursor: pointer;
+  &:hover{
+    font-weight: bold;
+  }
 `
