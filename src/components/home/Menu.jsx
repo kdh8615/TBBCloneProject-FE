@@ -1,42 +1,41 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
+import { category } from "../feature/category";
+
 function Menu() {
-  const category = {
-    all: "전체",
-    boardGame: "보드게임",
-    digitalGame: "디지털 게임",
-    webtoonCartoon: "웹툰 만화",
-    webtoonResource: "웹툰 리소스",
-    designWord: "디자인 문구",
-    characterGood: "캐릭터 굿즈",
-    homeLiving: "홈 리빙",
-    techElectronic: "테크 가전",
-    myPet: "반려 동물",
-    food: "푸드",
-    perfumeBeauty: "향수 뷰티",
-    clothes: "의류",
-    thing: "잡화",
-    jewel: "주얼리",
-    publising: "출판",
-    design: "디자인",
-    art: "예술",
-    picture: "사진",
-    music: "음악",
-    movie: "영화 비디오",
-    show: "공연"
-  };
+  const { cate }= useSelector(state => state.contents)
+  console.log(cate)
   const lists1 = [];
   const lists2 = [];
   const lists3 = [];
   const lists4 = [];
   const lists5 = [];
+
+  // const filitering = () =>{
+    
+  // }
+
   Object.keys(category).forEach((key, i) => {
-    if (i < 5) lists1.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
-    else if (i < 10) lists2.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
-    else if (i < 15) lists3.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
-    else if (i < 20) lists4.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
-    else lists5.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+    switch(true){
+      case i < 5:
+        lists1.push(<ListEl
+          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+        break;
+      case i < 10 :
+        lists2.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+        break;
+      case i < 15 :
+        lists3.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+        break;
+      case i < 20 :
+        lists4.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+        break;
+      default :
+        lists5.push(<ListEl><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+        break;
+    }
   });
   return (
     <MenuBar>

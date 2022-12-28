@@ -37,6 +37,11 @@ export const planSlice = createSlice({
       const value = action.payload;
       state.plan = {...state.plan, ...value}
     },
+    setImg: (state, action) =>{
+      const value = action.payload;
+      console.log(value)
+      state.plan.contentImageListPk = [...state.plan.contentImageListPk, value]
+    }
   },
   // extraReducers: (builder) => {
   //   builder
@@ -54,5 +59,5 @@ export const planSlice = createSlice({
   // },
 })
 
-export const { setPlan } = planSlice.actions
+export const { setPlan , setImg} = planSlice.actions
 export default planSlice.reducer
