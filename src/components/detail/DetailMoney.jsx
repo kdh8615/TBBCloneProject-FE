@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const DetailMoney = () => {
+  const [money, setMoney] = useState(0);
+  const onChangeMoney = (e) => {
+    const { name, value } = e.target;
+    setMoney(parseInt(value));
+  };
+  // console.log(typeof money);
+  // console.log(money);
   return (
     <div>
       <MoneyView>
         <h1>후원</h1>
         <div>후원금</div>
-        <input></input>
+        <input
+          type="number"
+          name="totalMoney"
+          onChange={onChangeMoney}
+          value={money}
+        />
         <h6>더 후원해주시면 프로젝트 성사가 앞당겨집니다.</h6>
         <MoneyButton>
-          <button>+5천 원</button>
-          <button>+1만 원</button>
-          <button>+5만 원</button>
-          <button>+10만 원</button>
+          <button onClick={() => setMoney(parseInt(money + 5000))}>
+            +5천 원
+          </button>
+          <button onClick={() => setMoney(parseInt(money + 10000))}>
+            +1만 원
+          </button>
+          <button onClick={() => setMoney(parseInt(money + 50000))}>
+            +5만 원
+          </button>
+          <button onClick={() => setMoney(parseInt(money + 100000))}>
+            +10만 원
+          </button>
         </MoneyButton>
         <MoneyGo>
           <h3>후원하기</h3>

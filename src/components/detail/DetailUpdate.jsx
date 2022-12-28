@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { VscAccount } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { __putComments } from "../../redux/modules/commentSlice";
+import { useParams } from "react-router-dom";
 
 const DetailUpdate = (props) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const [detailUpdate, setDetailUpdate] = useState(false);
   const [contentUpdate, setContentUpdate] = useState({
     id: props.id,
-    detailId: props.detailId,
+    detailId: parseInt(id),
     nickname: props.nickname,
     contents: props.contents,
   });
@@ -35,7 +37,7 @@ const DetailUpdate = (props) => {
           </CommentFirstLine>
           <CommentSecondLine>
             <button onClick={() => setDetailUpdate(true)}>수정</button>
-            <button onClick={() => props.del(props.id)}>삭제</button>
+            <button onClick={() => props.del(contentUpdate)}>삭제</button>
           </CommentSecondLine>
         </CommentLine>
         <div>{props.contents}</div>

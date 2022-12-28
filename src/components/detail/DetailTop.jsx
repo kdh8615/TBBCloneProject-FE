@@ -8,6 +8,7 @@ import { BsShare } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { __getDetail } from "../../redux/modules/detailSlice";
 import { useParams } from "react-router-dom";
+import { category } from "../feature/category";
 
 const DetailTop = () => {
   // 슬라이더 기본 셋팅
@@ -26,11 +27,20 @@ const DetailTop = () => {
   }, []);
 
   const detailView = useSelector((state) => state.details.detail);
+  console.log(detailView);
 
+  const startDay = detailView?.startDate?.split("T", 1)[0];
+  const endDay = detailView?.endDate?.split("T", 1)[0];
+
+  const DayMinus = Number(
+    startDay?.replace(/\-/g, "") - endDay?.replace(/\-/g, "")
+  );
+
+  // console.log(category[`${detailView?.category}`]); 카테고리 값 불러오기
   return (
     <DetailTopTotal>
-      <DetailCategory>카테고리</DetailCategory>
-      <DetailTitle>랭커를 위한 바른 생활 안내서 첫 공식 굿즈</DetailTitle>
+      <DetailCategory>{category[`${detailView?.category}`]}</DetailCategory>
+      <DetailTitle>{detailView?.title}</DetailTitle>
       <DetailBox>
         <StyleSlider {...settings}>
           <SliderImg src="http://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg"></SliderImg>
@@ -42,38 +52,47 @@ const DetailTop = () => {
         <DetailRight>
           <div style={{ fontSize: "15px" }}>모인금액</div>
           <DetailTopLine1>
-            <DetailTopIn>42,000,000</DetailTopIn>
+            <DetailTopIn>{detailView?.totalSupport}</DetailTopIn>
             <Won>원</Won>
-            <WonPersent>2000%</WonPersent>
+            <WonPersent>
+              {(Number(detailView?.totalSupport) /
+                Number(detailView?.goalPrice)) *
+                100}
+              %
+            </WonPersent>
           </DetailTopLine1>
           <SubTitle>남은시간</SubTitle>
           <DetailTopLine1>
-            <DetailTopIn>26</DetailTopIn>
+            <DetailTopIn>{DayMinus}</DetailTopIn>
             <Won>일</Won>
           </DetailTopLine1>
           <SubTitle>후원자</SubTitle>
           <DetailTopLine1>
-            <DetailTopIn>538</DetailTopIn>
+            <DetailTopIn>{detailView?.supporterCount}</DetailTopIn>
             <Won>명</Won>
           </DetailTopLine1>
           <DetailHr />
           <div>
             <RightDownView>
               <h5>목표금액</h5>
-              <div>1,000,000원</div>
+              <div>{detailView?.goalPrice}원</div>
             </RightDownView>
             <RightDownView>
               <h5>펀딩기간</h5>
-              <div>2022.12.08 ~ 2023.01.29</div>
-              <h6>35일 남음</h6>
+              <div>
+                {detailView?.startDate?.split("T", 1)} ~
+                {detailView?.endDate?.split("T", 1)}
+              </div>
+              <h6>{DayMinus}일남음</h6>
             </RightDownView>
           </div>
           <BottomButtonTotal>
             <BottomButton1>
-              <AiOutlineHeart />1
+              <AiOutlineHeart />
+              {detailView?.projectLike}
             </BottomButton1>
             <BottomButton1>
-              <BsShare />1
+              <BsShare />
             </BottomButton1>
             <BottomButton2>
               <h2>이 프로젝트 후원하기</h2>
@@ -144,7 +163,7 @@ const BottomButton2 = styled.button`
   }
 `;
 const RightDownView = styled.div`
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-direction: row;
   align-items: center;
