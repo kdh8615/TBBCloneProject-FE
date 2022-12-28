@@ -149,8 +149,8 @@ const SignUp = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(__signUp({ nickname, password, loginId }));
-    // alert("회원가입 성공");
-    // navigate("/");
+    alert("회원가입 성공");
+    navigate("/login");
   };
 
   return (

@@ -2,21 +2,57 @@ import React from "react";
 import styled from "styled-components";
 import LogoSvg from "../styles/LogoSvg";
 import { FaUserCircle } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
+import { getCookies } from "../api/cookie";
+import { useCookies } from "react-cookie";
 const Header = () => {
-  return (
-    <HeaderView>
-      <LogoSvg></LogoSvg>
-      <HeaderTwo>
-        <h5>프로젝트 올리기</h5>{" "}
-        {/* 이부분은 나중에 글쓰기 페이지 완성했을때 Link로 변경*/}
-        <HeaderIconDiv>
-          <FaUserCircle style={{ color: "#e5e5e5" }} size="25px" />
-          <HeaderIconFont>로그인/회원가입</HeaderIconFont>
-        </HeaderIconDiv>
-      </HeaderTwo>
-    </HeaderView>
-  );
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const tokenH = getCookies("id");
+  const logOut = () => {
+    if (!window.confirm("로그아웃 하시겠습니까?")) {
+      return;
+    } else {
+      removeCookie("id", { path: "/" });
+    }
+  };
+
+  if (!tokenH) {
+    return (
+      <HeaderView>
+        <Link to="/">
+          <LogoSvg />
+        </Link>
+        <HeaderTwo>
+          <h5>프로젝트 올리기</h5>{" "}
+          {/* 이부분은 나중에 글쓰기 페이지 완성했을때 Link로 변경*/}
+          <HeaderIconDiv>
+            <FaUserCircle style={{ color: "#e5e5e5" }} size="25px" />
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <HeaderIconFont>로그인/회원가입</HeaderIconFont>
+            </Link>
+          </HeaderIconDiv>
+        </HeaderTwo>
+      </HeaderView>
+    );
+  } else {
+    return (
+      <HeaderView>
+        <Link to="/">
+          <LogoSvg />
+        </Link>
+        <HeaderTwo>
+          <h5>프로젝트 올리기</h5>{" "}
+          {/* 이부분은 나중에 글쓰기 페이지 완성했을때 Link로 변경*/}
+          <HeaderIconDiv>
+            <FaUserCircle style={{ color: "#e5e5e5" }} size="25px" />
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <HeaderIconFont onClick={logOut}>로그아웃</HeaderIconFont>
+            </Link>
+          </HeaderIconDiv>
+        </HeaderTwo>
+      </HeaderView>
+    );
+  }
 };
 
 export default Header;
@@ -42,9 +78,12 @@ const HeaderIconDiv = styled.div`
   align-items: center;
 `;
 
-const HeaderIconFont = styled.h2`
+const HeaderIconFont = styled.button`
   font-size: 13px;
-  margin-left: 5px;
+  margin-left: 10px;
+  color: black;
+  background-color: transparent;
+  border: 1px solid white;
 `;
 
 const HeaderTwo = styled.div`
