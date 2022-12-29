@@ -4,7 +4,7 @@ import { __getcontents, setCategory } from "../../redux/modules/contentsSlice";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import testImg from "../../img/testImg.png"
-import { category } from "../feature/category";
+import { categoryList } from "../feature/categoryList";
 
 import { diffDate } from "../feature/dateCalc";
 
@@ -28,7 +28,7 @@ function CardsList(props) {
         <CardTop>
           <div
             onClick={()=>{filitering(contents?.category)}}>
-            {category[`${contents?.category}`]}
+            {categoryList[`${contents?.category}`]}
           </div>
           &nbsp;|&nbsp;
           <div>{contents?.nickname}</div>
@@ -53,7 +53,7 @@ export default CardsList;
 const LikeBtn = styled(FaRegHeart)`
   display: flex;
   position: relative;
-  z-index: 10;
+  z-index: 2;
   top: 40px;
   left: 240px;
   ;

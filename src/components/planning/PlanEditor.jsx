@@ -3,17 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { Editor } from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor-viewer'
 import '@toast-ui/editor/dist/toastui-editor.css'
-import { setPlan , setImg} from "../../redux/modules/planSlice";
+import { setPlan , setImg , setIsPlan} from "../../redux/modules/planSlice";
 import { instanceAxios } from "../../api/axiosAPI";
 
 function PlanEditor(props) {
   const editorRef = useRef();
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
+  const { content , changeEditor , setConImg} = props
+  const [imgList, setImgList] = useState([]);
   
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();
-    dispatch(setPlan({content : data}))
+    changeEditor(data)
   };
 
   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -26,14 +26,15 @@ function PlanEditor(props) {
 
   const onUploadImage = async (blob, callback) => {
     const data = new FormData();
+    console.log(blob);
 		data.append("upload",blob);
     uploadImg(data)
       .then((res)=>{
         const {id, url} =  res.data.data ;
         callback(url , "img");
-        dispatch(setImg(id))
+        setImgList([...imgList, id])
+        setConImg(imgList)
       });
-
   };
 
   return(

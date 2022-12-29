@@ -1,32 +1,29 @@
 import React ,{useState}from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setPlan } from "../../redux/modules/planSlice";
 import moment from 'moment';
 
 import styled from "styled-components";
 
-function DateForm() {
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
+function DateForm(props) {
+  const { setDate } = props;
   const [end, setEnd] = useState("");
   const [start , setStart] = useState(""); 
 
   const changeStart = (e) => {
-    const { value } = e.target
-    setStart(value)
+    const { value } = e.target;
+    setStart(value);
     let day = value;
-    day += "T00:00:00"
-    dispatch(setPlan({ startDate : day }))
+    day += "T00:00:00";
+    setDate("startDate", day);
   }
   const changeEnd = (e) => {
-    const { value } = e.target
-    setEnd(value)
-    let day = value
-    day += "T00:00:00"
-    dispatch(setPlan({ endDate : day }))
+    const { value } = e.target;
+    setEnd(value);
+    let day = value;
+    day += "T00:00:00";
+    setDate("endDate", day);
   }
-  const date = new Date();
-  // +T00:00:00
+
+  const now = moment().format("YYYY-MM-DD")
   return (
     <div>
         <li>
@@ -36,6 +33,7 @@ function DateForm() {
             onChange={changeStart}
             value={start}
             type="date"
+            min={now}
             placeholder="시작 날짜를 선택해주세요"></input>
         </li>
         <li>
@@ -49,6 +47,7 @@ function DateForm() {
             onChange={changeEnd}
             value={end}
             type="date"
+            min={start}
             placeholder="시작 날짜를 선택해주세요"></input>
         </li>
         <li>

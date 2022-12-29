@@ -2,16 +2,25 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { instanceAxios } from "../../api/axiosAPI"
 
 const initialState = {
-  plan : {
+    plan : {
     title: "",
     category :"",
     summary: "",
     goalPrice: 0,
     startDate: "",
     endDate: "",
-    thumbnailListPk: [],
+    thumbnailImageUrl :"",
     contentImageListPk: [],
     content : "",
+  },
+  isPlan : {
+    isTitle: false,
+    isCategory :false,
+    isSummary: false,
+    isGoalPrice:false,
+    isStartDate: false,
+    isEndDate: false,
+    isContent : false,
   }
 }
 
@@ -41,6 +50,10 @@ export const planSlice = createSlice({
       const value = action.payload;
       console.log(value)
       state.plan.contentImageListPk = [...state.plan.contentImageListPk, value]
+    },
+    setIsPlan:(state,action) => {
+      const value = action.payload
+      state.isPlan = {...state.isPlan, ...value}
     }
   },
   // extraReducers: (builder) => {
@@ -59,5 +72,5 @@ export const planSlice = createSlice({
   // },
 })
 
-export const { setPlan , setImg} = planSlice.actions
+export const { setPlan , setImg , setIsPlan} = planSlice.actions
 export default planSlice.reducer

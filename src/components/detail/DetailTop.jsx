@@ -8,8 +8,8 @@ import { BsShare } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { __getDetail, __detailDelete } from "../../redux/modules/detailSlice";
 import { useParams } from "react-router-dom";
-import { category } from "../feature/category";
 import DetailMoney from "./DetailMoney";
+import { categoryList } from "../feature/categoryList";
 
 const DetailTop = () => {
   // 슬라이더 기본 셋팅
@@ -51,13 +51,14 @@ const DetailTop = () => {
     <DetailTopTotal>
       <UpDiv>
         <DIVTOP>
-          <DetailCategory>{category[`${detailView?.category}`]}</DetailCategory>
+          <DetailCategory>{categoryList[`${detailView?.category}`]}</DetailCategory>
         </DIVTOP>
         <DelUpBtn>
           <button>수정</button>
           <button onClick={() => onClickDetailDelete(id)}>삭제</button>
         </DelUpBtn>
       </UpDiv>
+
       <DetailTitle>{detailView?.title}</DetailTitle>
       <DetailBox>
         <StyleSlider {...settings}>

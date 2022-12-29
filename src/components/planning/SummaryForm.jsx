@@ -1,28 +1,26 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPlan } from "../../redux/modules/planSlice";
+import { setIsPlan, setPlan } from "../../redux/modules/planSlice";
 
 import styled from "styled-components";
 
-function SummaryForm() {
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
-
-  const changeInput = (e) =>{
-    const { name, value } = e.target
-    dispatch(setPlan({summary : value}))
-  }
+function SummaryForm(props) {
+  const { summary , changeInput } = props
   return (
     <div>
       <InputSummary
         name="summary"
         required
-        onChange={changeInput}
-        value={plan.summary}
+        onChange={(event) => {changeInput(event)}}
+        value={summary}
+        maxLength={50}
         placeholder="요약을 입력해주세요"></InputSummary>
       <AlertMsg>
-        {(plan.summary === "") ? "필수입니다." : null}
+        {(summary === "") ? "필수입니다." : null}
       </AlertMsg>
+      <CountMsg>
+        {summary.length}/50
+      </CountMsg>
     </div>
   )
 }
@@ -44,4 +42,10 @@ const InputSummary = styled.textarea`
 const AlertMsg = styled.div`
   color : var(--color1);
   font-size: var(--font1);
+`
+const CountMsg = styled.div`
+  color : var(--color1);
+  font-size: var(--font1);
+  display: flex;
+  justify-content: flex-end;
 `

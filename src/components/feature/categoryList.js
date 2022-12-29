@@ -1,4 +1,4 @@
-export const category = {
+export const categoryList = {
   all: "전체",
   boardGame: "보드게임",
   digitalGame: "디지털 게임",

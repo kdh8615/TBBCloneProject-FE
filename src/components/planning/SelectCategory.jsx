@@ -1,22 +1,16 @@
 import React from "react"
-import { useDispatch, useSelector } from "react-redux";
 
-import { category } from "../feature/category";
+import { categoryList } from "../feature/categoryList";
 import styled from "styled-components";
-import { setPlan } from "../../redux/modules/planSlice";
 
-function SelectCategory() {
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
-  console.log(plan)
-  const categoryList = [];
-  Object.keys(category).forEach((key, i) => {
-    categoryList.push(<option key={i} value={key}>{category[key]}</option>)
+function SelectCategory(props) {
+  const { category , changeInput } = props
+
+  const cList = [];
+  Object.keys(categoryList).forEach((key, i) => {
+    cList.push(<option key={i} value={key}>{categoryList[key]}</option>)
   })
-  const changeInput = (e) =>{
-    const { name, value } = e.target
-    dispatch(setPlan({category : value}))
-  }
+
   return (
     <div>
       <DescTitle>카테고리</DescTitle>
@@ -24,9 +18,9 @@ function SelectCategory() {
           name="category"
           required
           onChange={changeInput}
-          value={plan.category}>
+          value={category}>
           <option value="" hidden>선택 해주세요</option>
-          {categoryList}
+          {cList}
         </CategorySelect>
     </div>
   )

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setCategory, __getcontents } from "../../redux/modules/contentsSlice";
 
-import { category } from "../feature/category";
+import { categoryList } from "../feature/categoryList";
 
 function Menu() {
   const { cate, filt }= useSelector(state => state.contents)
@@ -22,32 +22,32 @@ function Menu() {
     dispatch(__getcontents({cate , filt}))
   },[dispatch, cate, filt])
 
-  Object.keys(category).forEach((key, i) => {
+  Object.keys(categoryList).forEach((key, i) => {
     switch(true){
       case i < 5:
         lists1.push(<ListEl 
           onClick={()=>{filitering(key)}}
-          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+          ><img src={require(`../../img/icons/${key}.svg`)} />{categoryList[key]}</ListEl>);
         break;
       case i < 10 :
         lists2.push(<ListEl
           onClick={()=>{filitering(key)}}
-          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+          ><img src={require(`../../img/icons/${key}.svg`)} />{categoryList[key]}</ListEl>);
         break;
       case i < 15 :
         lists3.push(<ListEl
           onClick={()=>{filitering(key)}}
-          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+          ><img src={require(`../../img/icons/${key}.svg`)} />{categoryList[key]}</ListEl>)
         break;
       case i < 20 :
         lists4.push(<ListEl
           onClick={()=>{filitering(key)}}
-          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>);
+          ><img src={require(`../../img/icons/${key}.svg`)} />{categoryList[key]}</ListEl>);
         break;
       default :
         lists5.push(<ListEl
           onClick={()=>{filitering(key)}}
-          ><img src={require(`../../img/icons/${key}.svg`)} />{category[key]}</ListEl>)
+          ><img src={require(`../../img/icons/${key}.svg`)} />{categoryList[key]}</ListEl>)
         break;
     }
   });
@@ -68,6 +68,7 @@ export default Menu;
 const MenuBar = styled.div`
   display: flex;
   flex-direction: row;
+  z-index: 10;
   /* position: absolute; */
   width: 100%;
   /* height: 300px; */

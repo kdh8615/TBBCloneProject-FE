@@ -26,26 +26,66 @@ import { __addPlan } from "../redux/modules/planSlice";
 function Planning() {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
-  const { plan } = useSelector(state => state.plan);
+  // const { plan , isPlan} = useSelector(state => state.plan);
   const changeUploadFile = async (event) => {
     const { name, files } = event.target;
 		setImages([...images, ...files]);
   };
-
-	const handleOnRemoveImage = (index) => {
-		const newImages = [...images];
-		newImages.splice(index, 1);
-		setImages(newImages);
-	};
-
   const createHandler = () =>{
     dispatch(__addPlan(plan))
+  }
+  const [plan, setPlan] =useState({
+      title: "",
+      category :"",
+      summary: "",
+      goalPrice: 0,
+      startDate: "",
+      endDate: "",
+      thumbnailImageUrl :"",
+      contentImageListPk: [],
+      content : "",
+  })
+  const changeInput = (event) =>{
+    const { name, value } = event.target;
+    setPlan({...plan, [name] : value})
+  }
+  console.log(plan)
+
+  const changeEditor = (data) =>{
+    const content = data
+    setPlan({...plan, content})
+  }
+  const setConImg = (data) =>{
+    setPlan({...plan, contentImageListPk: data})
+  }
+  const setThumbnail = (data) =>{
+    setPlan({...plan, thumbnailImageUrl: data})
+  }
+
+  const setGoalPrice = (data) =>{
+    setPlan({...plan, goalPrice: data})
+  }
+
+  const setDate = (date, day) =>{
+    setPlan({...plan, [date] : day})
   }
 
   return (
     <PlanningForm>
       <PlanHeaderTop>
-        <HeadBtn onClick={createHandler}>기획하기</HeadBtn>
+        <HeadBtn 
+        disabled={
+          !(
+            ((plan.title.trim() !== "" && plan.title.length > 3))
+            &&((plan.category !== ""))
+            &&((plan.summary.trim() !== "" && plan.summary.length > 3))
+            &&((plan.goalPrice >= 500000))
+            &&((plan.startDate !== "" && plan.startDate < plan.endDate))
+            &&((plan.endDate !== "" && plan.startDate < plan.endDate))
+            &&((plan.content.trim() !== ""))
+          )
+        }
+        onClick={createHandler}>기획하기</HeadBtn>
       </PlanHeaderTop>
       <Column>
         <DescL>
@@ -54,7 +94,7 @@ function Planning() {
             적합하지 않을 경우 운영자에 의해 조정될 수 있습니다.</ColDescription>
         </DescL>
         <div>
-          <SelectCategory />
+          <SelectCategory category = {plan.category}  changeInput ={changeInput}/>
         </div>
       </Column>
       <Column>
@@ -68,9 +108,7 @@ function Planning() {
             <DescDetail>제목은 어디에 쓰이나요?</DescDetail>
             <DesImg src={titleImg} alt="" />
           </DescR>
-
-          <TitleForm />
-
+          <TitleForm title={plan.title}  changeInput={changeInput}/>
         </ColDetail>
       </Column>
       <Column>
@@ -84,7 +122,7 @@ function Planning() {
             <DescDetail>프로젝트 요약은 어디에 표시되나요?</DescDetail>
             <DesImg src={summaryImg} alt="" />
           </DescR>
-          <SummaryForm />
+          <SummaryForm summary={plan.summary}  changeInput={changeInput}/>
         </ColDetail>
       </Column>
 
@@ -96,7 +134,7 @@ function Planning() {
         <ColDetail>
           <div><VscQuestion color="var(--color1)" /></div>
           <ImgProd src={uploadImg} alt="" />
-            <ImageForm />
+            <ImageForm thumbnail={plan.thumbnailImageUrl}  changeInput={changeInput} setThumbnail={setThumbnail}/>
         </ColDetail>
       </Column>
 
@@ -106,7 +144,7 @@ function Planning() {
           <ColDescription>무엇을 만들기 위한 프로젝트인지 분명히 알려주세요.</ColDescription>
         </DescL>
         <ColDetail>
-          <PlanEditor />
+          <PlanEditor content={plan.content}  changeEditor={changeEditor} setConImg={setConImg}/>
         </ColDetail>
       </Column>
 
@@ -131,7 +169,7 @@ function Planning() {
         </DescL>
         <DescColumn>
           <DescTitle>목표금액</DescTitle>
-          <MoneyForm />
+          <MoneyForm goalPrice={plan.goalPrice}  changeInput={changeInput} setGoalPrice={setGoalPrice}/>
         </DescColumn>
       </Column>
 
@@ -144,7 +182,7 @@ function Planning() {
           </ColDescription>
         </DescL>
         <DescR>
-          <DateForm />
+          <DateForm setDate={setDate}/>
         </DescR>
       </Column>
     </PlanningForm>
@@ -160,6 +198,8 @@ const PlanHeaderTop = styled.div`
   top: 0;
   background-color: white;
   position: sticky;
+  display: flex;
+  justify-content: flex-end;
 `
 // const PlanHeadermiddle = styled.div`
 //   height: 50px;
@@ -170,6 +210,12 @@ const HeadBtn = styled.button`
   width: 150px;
   height: 50px;
   border: none;
+  font-weight: bold;
+  &:not([disabled]){
+    background-color: var(--color1);
+    color: white;
+    font-size: var(--font3);
+  }
 `
 
 const Column = styled.div`
@@ -200,29 +246,6 @@ const PlanningForm = styled.div`
   width: 1080px;
   margin: auto;
   margin-top: var(--pad3);
-`
-
-const InputTitle = styled.input`
-  border:1px solid var(--color1);
-  padding: var(--pad2);
-  width: 610px;
-  font-size: var(--font3);
-  caret-color: var(--color1);
-  &:focus {
-  outline: 0;
-  }
-`
-const InputSummary = styled.textarea`
-  border: 1px solid gray;
-  height: 50px;
-  padding: var(--pad2);
-  width: 610px;
-  font-size: var(--font3);
-  caret-color: var(--color1);
-  resize: none;
-  &:focus {
-  outline: 0;
-  }
 `
 
 
@@ -263,10 +286,7 @@ const DesImg = styled.img`
 const ImgProd = styled.img`
   width: 550px;
   background-size: cover;
-
 `
-
-
 const WarnMsg = styled.div`
   background-color: var(--color2);
   color: var(--color1);
@@ -278,34 +298,3 @@ const InfoLi = styled.li`
   color: gray;
   margin: var(--pad1);
 `
-
-// .timeline {
-//   list-style: none;
-//   }
-//   .timeline li {
-//   margin-bottom: 30px;
-//   }div
-  
-//   .timeline-content {
-//   margin-top: 1rem;
-//   }
-  
-//   ul.timeline {
-//   background-color: #fffef6;
-//   border:dashed 1px #e5e5d1;
-//   }
-  
-//   .timeline span.midashi{
-//   font-weight:500;
-//   font-size:120%;
-//   color: #fdc44f;
-//   }
-  
-//   ul.timeline li::before {
-//   font-family: “Font Awesome 5 Free”;
-//   content: “\f111”;
-//   transform: scale(1.0);
-//   font-weight: bold;
-//   color: #fdc44f;
-//   font-size:80%;
-//   }

@@ -1,29 +1,28 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { setPlan } from "../../redux/modules/planSlice";
+import { setPlan, setIsPlan } from "../../redux/modules/planSlice";
 
 import styled from "styled-components";
 
-function TitleForm() {
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
+function TitleForm(props) {
+  const { title, changeInput } = props;
 
-  const changeInput = (e) =>{
-    const { name, value } = e.target
-    dispatch(setPlan({title : value}))
-  }
   return (
     <div>
       <InputTitle
         name="title"
         required
-        onChange={changeInput}
-        value={plan.title}
+        onChange={(event) => {changeInput(event)}}
+        value={title}
         type="text"
+        maxLength={32}
         placeholder="제목을 입력해주세요"></InputTitle>
       <AlertMsg>
-        {(plan.title === "") ? "필수입니다" : null}
+        {(title === "") ? "필수입니다" : null}
       </AlertMsg>
+      <CountMsg>
+        {title.length}/32
+      </CountMsg>
     </div>
   )
 }
@@ -43,4 +42,10 @@ const InputTitle = styled.input`
 const AlertMsg = styled.div`
   color : var(--color1);
   font-size: var(--font1);
+`
+const CountMsg = styled.div`
+  color : var(--color1);
+  font-size: var(--font1);
+  display: flex;
+  justify-content: flex-end;
 `

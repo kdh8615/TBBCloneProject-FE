@@ -1,32 +1,30 @@
 import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { setPlan } from "../../redux/modules/planSlice";
+import { setPlan , setIsPlan} from "../../redux/modules/planSlice";
 import { NumericFormat } from 'react-number-format';
 
 import styled from "styled-components";
 
-function TitleForm() {
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
+function MoneyForm(props) {
+  const { goalPrice , setGoalPrice} = props
   const [price, setPrice] = useState(0);
-  const changeInput = (e) => {
-    let { value } = e.target
-    setPrice(value)
-    let num = value.replaceAll(",", "")
+  let num ;
+  const changeInput = (event) =>{
+    setPrice(event.target.value)
+    num = price.replaceAll(",","");
     num = Number(num)
-    dispatch(setPlan({ goalPrice : num }))
-    console.log(num)
+    setGoalPrice(num)
   }
-  
   return (
     <div>
       <InputMoney
         required
         name="goalPrice"
-        onChange={changeInput}
+        onChange={(event)=>changeInput(event)}
         value={price}
         thousandSeparator=","
         allowLeadingZeros
+        maxLength={15}
         // suffix={'원'}
         placeholder="50만원 이상의 금액을 입력해주세요" />
       <GrayBox>
@@ -54,9 +52,7 @@ function TitleForm() {
   )
 }
 
-export default TitleForm;
-
-
+export default MoneyForm;
 
 const GrayBox = styled.div`
   background-color: rgb(240, 240, 240) ;

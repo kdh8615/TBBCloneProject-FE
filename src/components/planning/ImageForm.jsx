@@ -1,21 +1,37 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setPlan } from "../../redux/modules/planSlice";
+import { instanceAxios } from "../../api/axiosAPI";
 
 import styled from "styled-components";
 
-function ImageForm() {
-  const { plan } = useSelector(state => state.plan);
-  const dispatch = useDispatch();
+const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+const uploadImg = async (data) =>{
+  try{
+    const res = await instanceAxios.post('/project/thumbnail', data , config);
+    return res;
+  } catch(error) {console.log(error);}
+}
+
+function ImageForm(props) {
+  const { thumbnailImageUrl , changeInput, setThumbnail } = props
   const [images, setImages] = useState();
-  const changeInput = (e) => {
-    const { name, value } = e.target
-    dispatch(setPlan({ summary: value }))
-  }
+
   const changeUploadFile = async (event) => {
     const { name, files } = event.target;
-		setImages([...images, ...files]);
+    console.log(files)
+    const data = new FormData();
+    data.append("upload",files);
+    console.log(data.get('upload'))
+		// setImages([...images, ...files]);
+    uploadImg(data)
+    .then((res)=>{
+      console.log(res)
+      // const {id, url} =  res.data.data ;
+      // dispatch(setPlan(url))
+      // setThumbnail(url)
+    });
   };
+
+
   return (
     <div>
       <input
