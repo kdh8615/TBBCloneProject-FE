@@ -24,8 +24,9 @@ const DetailUpdate = (props) => {
     setContentUpdate({ ...contentUpdate, [name]: value });
   };
 
-  const onClickUpdateComment = () => {
-    dispatch(__putComments(contentUpdate));
+  const onClickUpdateComment = async () => {
+    await dispatch(__putComments(contentUpdate));
+    dispatch(__getComments(id));
     setDetailUpdate(false);
   };
 
