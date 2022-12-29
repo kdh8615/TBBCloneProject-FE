@@ -48,6 +48,9 @@ export const contentsSlice = createSlice({
     // },
     setCategory:(state,action) =>{
       state.cate = action.payload
+    },
+    setFilter:(state,action) =>{
+      state.filt = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -66,5 +69,5 @@ export const contentsSlice = createSlice({
   },
 })
 
-export const { setCategory } = contentsSlice.actions
+export const { setCategory, setFilter } = contentsSlice.actions
 export default contentsSlice.reducer
