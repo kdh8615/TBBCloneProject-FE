@@ -3,21 +3,25 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __postMoney } from "../../redux/modules/detailSlice";
+import { Link } from "react-scroll";
 
 const DetailMoney = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [money, setMoney] = useState(0);
+  let [money, setMoney] = useState(0);
   const onChangeMoney = (e) => {
     const { name, value } = e.target;
     setMoney(parseInt(value));
   };
 
   const onClickMoney = () => {
+    if (money === 0 || money === undefined || money === "") {
+      return;
+    }
     dispatch(__postMoney({ id, money }));
-    setMoney({ money: "" });
+    setMoney((money = 0));
   };
-  console.log(typeof money);
+  console.log(money);
   return (
     <div id="MoveMoney">
       <MoneyView>

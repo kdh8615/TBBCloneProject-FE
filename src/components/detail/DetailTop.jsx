@@ -14,22 +14,13 @@ import { diffDate } from "../feature/dateCalc";
 import { Link } from "react-scroll";
 
 const DetailTop = () => {
-  // 슬라이더 기본 셋팅
-  const settings = {
-    dots: true, // 슬라이더 밑에 점 보이게
-    Infinity: true, // 무한으로 반복
-    speed: 500,
-    slidersToShow: 1, // 1장씩 보이게
-    slidesToScroll: 1, // 1장씩 뒤로
-    centerPadding: "0px",
-  };
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(__getDetail(id));
   }, [dispatch, id]);
 
-  const detailView = useSelector((state) => state.details.detail);
+  const detailView = useSelector((state) => state?.details?.detail);
   console.log(detailView);
 
   const navigate = useNavigate();
@@ -39,6 +30,19 @@ const DetailTop = () => {
     alert("삭제되었습니다");
     navigate("/", { replace: true });
   };
+  // const shareData = {
+  //   title: detailView?.title,
+  //   url: url,
+  // };
+
+  // const onClickShared = async () => {
+  //   try {
+  //     await navigator.share(shareData);
+  //   } catch (err) {}
+  // };
+
+  const url = window.location.href;
+  console.log(url);
 
   const date = diffDate(detailView?.endDate);
   // console.log(category[`${detailView?.category}`]); 카테고리 값 불러오기
@@ -46,7 +50,9 @@ const DetailTop = () => {
     <DetailTopTotal>
       <UpDiv>
         <DIVTOP>
-          <DetailCategory>{categoryList[`${detailView?.category}`]}</DetailCategory>
+          <DetailCategory>
+            {categoryList[`${detailView?.category}`]}
+          </DetailCategory>
         </DIVTOP>
         <DelUpBtn>
           <button>수정</button>
@@ -56,13 +62,8 @@ const DetailTop = () => {
 
       <DetailTitle>{detailView?.title}</DetailTitle>
       <DetailBox>
-        <StyleSlider {...settings}>
-          <SliderImg src="http://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg"></SliderImg>
-          <SliderImg src="http://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg"></SliderImg>
-          <SliderImg src="http://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg"></SliderImg>
-          <SliderImg src="http://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg"></SliderImg>
-          <SliderImg src="http://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg"></SliderImg>
-        </StyleSlider>
+        <SliderImg src={detailView?.thumbnailImageUrl}></SliderImg>
+
         <DetailRight>
           <div style={{ fontSize: "15px" }}>모인금액</div>
           <DetailTopLine1>
