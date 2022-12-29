@@ -61,7 +61,7 @@ export const detailSlice = createSlice({
     },
     [__detailDelete.pending]: (state) => {},
     [__detailDelete.fulfilled]: (state, action) => {
-      state.detail = state.detail.filter((del) => del.id !== action.payload);
+      // state.detail = state.detail.filter((del) => del.id !== action.payload);
     },
     [__detailDelete.rejected]: (state, action) => {},
   },

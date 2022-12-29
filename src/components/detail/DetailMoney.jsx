@@ -15,10 +15,11 @@ const DetailMoney = () => {
 
   const onClickMoney = () => {
     dispatch(__postMoney({ id, money }));
+    setMoney({ money: "" });
   };
-
+  console.log(typeof money);
   return (
-    <div>
+    <div id="MoveMoney">
       <MoneyView>
         <h1>후원</h1>
         <div>후원금</div>
