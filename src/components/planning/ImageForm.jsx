@@ -16,6 +16,7 @@ function ImageForm(props) {
   const [images, setImages] = useState();
 
   const changeUploadFile = async (event) => {
+    event.preventDefault();
     const { files } = event.target;
     console.log()
     const data = new FormData();

@@ -23,17 +23,18 @@ import ImageForm from "../components/planning/ImageForm";
 import { useDispatch , useSelector} from "react-redux";
 import { __addPlan } from "../redux/modules/planSlice";
 
+var thumbnail = "";
+
 function Planning() {
   const [images, setImages] = useState([]);
+  const [isClick ,setClick] = useState(false)
   const dispatch = useDispatch();
-  // const { plan , isPlan} = useSelector(state => state.plan);
+  const { msg } = useSelector(state => state.plan);
   const changeUploadFile = async (event) => {
     const { name, files } = event.target;
 		setImages([...images, ...files]);
   };
-  const createHandler = () =>{
-    dispatch(__addPlan(plan))
-  }
+
   const [plan, setPlan] =useState({
       title: "",
       category :"",
@@ -48,28 +49,47 @@ function Planning() {
   const changeInput = (event) =>{
     const { name, value } = event.target;
     setPlan({...plan, [name] : value})
+    console.log("change", plan)
   }
-  console.log(plan)
-
   const changeEditor = (data) =>{
     const content = data
     setPlan({...plan, content})
+    console.log("editor", plan)
+
   }
   const setConImg = (data) =>{
     setPlan({...plan, contentImageListPk: data})
+    console.log("content", plan)
+
   }
   const setThumbnail = (data) =>{
+    thumbnail = data
     setPlan({...plan, thumbnailImageUrl: data})
-  }
+    console.log("thum", plan)
 
+  }
   const setGoalPrice = (data) =>{
     setPlan({...plan, goalPrice: data})
-  }
+    console.log("price", plan)
 
+  }
   const setDate = (date, day) =>{
     setPlan({...plan, [date] : day})
-  }
+    console.log("date", plan)
 
+  }
+  // console.log(plan)
+
+  // useEffect(() => {
+  //   if (!isClick) return;
+  //   if (msg === "success" && isClick) {
+  //     navigate("/");
+  //   }
+  // }, [msg, isClick]);
+  const createHandler = () =>{
+    setPlan({...plan, thumbnailImageUrl: thumbnail})
+    dispatch(__addPlan(plan))
+  }
   return (
     <PlanningForm>
       <PlanHeaderTop>
@@ -200,6 +220,7 @@ const PlanHeaderTop = styled.div`
   position: sticky;
   display: flex;
   justify-content: flex-end;
+  z-index: 10;
 `
 // const PlanHeadermiddle = styled.div`
 //   height: 50px;

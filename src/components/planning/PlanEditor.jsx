@@ -8,7 +8,7 @@ import { instanceAxios } from "../../api/axiosAPI";
 
 function PlanEditor(props) {
   const editorRef = useRef();
-  const { content , changeEditor , setConImg} = props
+  const {changeEditor , setConImg} = props
   const [imgList, setImgList] = useState([]);
   
   const onChange = () => {
@@ -26,14 +26,14 @@ function PlanEditor(props) {
 
   const onUploadImage = async (blob, callback) => {
     const data = new FormData();
-    console.log(blob);
 		data.append("upload",blob);
     uploadImg(data)
       .then((res)=>{
         const {id, url} =  res.data.data ;
         callback(url , "img");
-        setImgList([...imgList, id])
-        setConImg(imgList)
+        console.log(imgList, url , id)
+        // setImgList([...imgList, id])
+        // setConImg(imgList)
       });
   };
 

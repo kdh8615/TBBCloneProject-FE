@@ -21,7 +21,8 @@ const initialState = {
     isStartDate: false,
     isEndDate: false,
     isContent : false,
-  }
+  },
+  msg : ""
 }
 
 export const __addPlan = createAsyncThunk(

@@ -41,13 +41,7 @@ const ToggleBox = styled.div`
 const ToggleTrigger = styled.div`
   line-height: 50px;
   font-size: var(--font2);
-  /* margin-right: var(--pad2); */
-  /* padding: 0 var(--pad1); */
   font-weight: bold;
-  /* 
-  &:hover{
-    color: var(--color1);
-  } */
   &:after{
     position: absolute;
     bottom: 0px;
@@ -61,13 +55,13 @@ const ToggleTrigger = styled.div`
 const MenuConroler = styled.div`
   height: 0px;
   overflow: hidden;
-  /* display: none; */
   position: absolute;
+  /* width: 100vw; */
   content: "";
   transition: 1s;
+  box-shadow: 0px 5px 5px -1px rgb(200,200,200);
   ${ToggleTrigger}:hover &{
-    height: 600px;
-    /* overflow:visible; */
+    height: 250px;
     display: block;
   }
 `
@@ -93,7 +87,6 @@ const Toggle = styled.div`
 
 
 const Header = styled.div`
-  /* display: flex; */
   justify-content: space-between;
   height: 50px;
   align-items: center;
@@ -103,6 +96,6 @@ const Header = styled.div`
   position : sticky;
   z-index: 5;
   background-color: white;
-  box-shadow: 0px 5px 5px -1px rgb(200,200,200);
+  /* box-shadow: 0px 5px 5px -1px rgb(200,200,200); */
 `
 
