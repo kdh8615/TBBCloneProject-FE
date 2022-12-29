@@ -25,13 +25,11 @@ export const __postComments = createAsyncThunk(
   "comments/post",
   async (payload, thunkAPI) => {
     try {
-      const data = await instanceAxios.post(
-        `project/${payload.detailId}/comment`,
-        {
-          contents: payload.contents,
-        }
-      );
-      return thunkAPI.fulfillWithValue(data.data);
+      await instanceAxios.post(`project/${payload.detailId}/comment`, {
+        contents: payload.contents,
+      });
+      // console.log(data);
+      // return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -42,11 +40,12 @@ export const __postComments = createAsyncThunk(
 export const __delComments = createAsyncThunk(
   "comments/delete",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       await instanceAxios.delete(
         `project/${payload.detailId}/comment/${payload.id}`
       );
-      return thunkAPI.fulfillWithValue(payload);
+      // return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -80,14 +79,14 @@ export const commentSlice = createSlice({
     [__getComments.rejected]: (_state, _action) => {},
     [__postComments.pending]: (_state) => {},
     [__postComments.fulfilled]: (state, action) => {
-      state.comment = [...state.comment, action.payload];
+      // state.comment = [...state.comment, action.payload];
     },
     [__postComments.rejected]: (_state, _action) => {},
     [__delComments.pending]: (_state) => {},
     [__delComments.fulfilled]: (state, action) => {
-      state.comment = state.comment.filter(
-        (com) => com.commentId !== action.payload.id
-      );
+      // state.comment = state.comment.filter(
+      //   (com) => com.commentId !== action.payload.id
+      // );
     },
     [__delComments.rejected]: (_state, _action) => {},
     [__putComments.pending]: (_state) => {},
