@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { all } from "axios"
+import { async } from "q"
 import { instanceAxios } from "../../api/axiosAPI"
 
 const initialState = {
@@ -19,6 +20,19 @@ export const __getcontents = createAsyncThunk(
       console.log(data.data.data)
       return thunkAPI.fulfillWithValue(data.data.data)
     } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+export const __setHeart = createAsyncThunk(
+  "contents/heart",
+  async(payload, thunkAPI) =>{
+    try{
+      const data = await instanceAxios.post(`/project/like/${payload}`)
+      console.log(data)
+      return thunkAPI.fulfillWithValue("success")
+    }catch (error){
       return thunkAPI.rejectWithValue(error)
     }
   }

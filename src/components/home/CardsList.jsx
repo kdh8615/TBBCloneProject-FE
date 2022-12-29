@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { __getcontents, setCategory } from "../../redux/modules/contentsSlice";
-import { useDispatch } from "react-redux";
+import { __getcontents, setCategory, __setHeart } from "../../redux/modules/contentsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import testImg from "../../img/testImg.png"
 import { categoryList } from "../feature/categoryList";
@@ -11,6 +11,7 @@ import { diffDate } from "../feature/dateCalc";
 import {FaHeart, FaRegHeart } from "react-icons/fa";
 
 function CardsList(props) {
+  const {  cate , filt } = useSelector(state => state.contents)
   const { contents } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,13 +19,25 @@ function CardsList(props) {
   const filitering = async (key) =>{
     await dispatch(setCategory(key))
   }
+  console.log(contents)
 
   const date = diffDate(contents?.endDate);
+  const percent = ((contents?.totalSupport/ contents?.goalPrice)*100).toFixed();
+
+  const heartHandler = () =>{
+    dispatch(__setHeart(contents?.projectId))
+    dispatch(__getcontents({ cate , filt}))
+  }
+  console.log(contents?.projectLike)
 
   return (
     <CardsBox >
-      <LikeBtn />
-        <Thumbnail src={testImg} onClick={()=>navigate(`detail/${contents?.projectId}`)}/>
+      <LikeBtn onClick={heartHandler}>
+        {contents?.projectLike ?
+          <FaHeart /> : <FaRegHeart />
+        }
+      </LikeBtn>
+        <Thumbnail src={`${contents?.thumbnailImageUrl}`} onClick={()=>navigate(`detail/${contents?.projectId}`)}/>
         <CardTop>
           <div
             onClick={()=>{filitering(contents?.category)}}>
@@ -37,27 +50,30 @@ function CardsList(props) {
         <Summary>{contents?.summary}</Summary>
         <CardBot>
           <LeftBot>
-            <Percent>{contents?.percent}%</Percent>
+            <Percent>{percent}%</Percent>
             <TotalSup>{Number(contents?.totalSupport).toLocaleString()}원</TotalSup>
           </LeftBot>
           <DiffDate>{date}</DiffDate>
         </CardBot>
         <PercentBar>
-          <PercentValue per={contents?.percent} />
+          <PercentValue per={percent} />
         </PercentBar>
     </CardsBox>
   )
 }
 export default CardsList;
 
-const LikeBtn = styled(FaRegHeart)`
+const LikeBtn = styled.div`
   display: flex;
   position: relative;
   z-index: 2;
   top: 40px;
   left: 240px;
+  color: red;
   ;
 `
+
+
 
 const CardsBox = styled.div`
   width: 275px;

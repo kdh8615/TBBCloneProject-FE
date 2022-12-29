@@ -16,21 +16,17 @@ function ImageForm(props) {
   const [images, setImages] = useState();
 
   const changeUploadFile = async (event) => {
-    const { name, files } = event.target;
-    console.log(files)
+    const { files } = event.target;
+    console.log()
     const data = new FormData();
-    data.append("upload",files);
-    console.log(data.get('upload'))
-		// setImages([...images, ...files]);
+    data.set("upload",files[0]);
     uploadImg(data)
     .then((res)=>{
       console.log(res)
-      // const {id, url} =  res.data.data ;
-      // dispatch(setPlan(url))
-      // setThumbnail(url)
+      const {id, url} =  res.data.data ;
+      setThumbnail(url)
     });
   };
-
 
   return (
     <div>

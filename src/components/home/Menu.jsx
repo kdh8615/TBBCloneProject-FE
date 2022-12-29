@@ -74,7 +74,6 @@ const MenuBar = styled.div`
   /* height: 300px; */
   background-color: white;
 `
-
 const ListBox = styled.div`
   margin: auto;
   display: flex;
@@ -84,7 +83,6 @@ const CategoryList = styled.div`
   width: 230px;
   flex-direction: column;
 `
-
 const ListEl = styled.div`
   display: flex;
   /* justify-content: center; */
