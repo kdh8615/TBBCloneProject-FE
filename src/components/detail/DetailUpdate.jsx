@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { VscAccount } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
-import { __putComments } from "../../redux/modules/commentSlice";
+import {
+  __putComments,
+  __getComments,
+  __delComments,
+} from "../../redux/modules/commentSlice";
 import { useParams } from "react-router-dom";
 
 const DetailUpdate = (props) => {
@@ -25,6 +29,12 @@ const DetailUpdate = (props) => {
     setDetailUpdate(false);
   };
 
+  const onClickDeleteComment = async (obj) => {
+    await dispatch(__delComments(obj));
+    dispatch(__getComments(id));
+  };
+  // console.log("contentU", props.id);
+
   if (detailUpdate === false) {
     return (
       <CommentToT key={props.id}>
@@ -37,7 +47,13 @@ const DetailUpdate = (props) => {
           </CommentFirstLine>
           <CommentSecondLine>
             <button onClick={() => setDetailUpdate(true)}>수정</button>
-            <button onClick={() => props.del(contentUpdate)}>삭제</button>
+            <button
+              onClick={() =>
+                onClickDeleteComment({ id: props.id, detailId: props.detailId })
+              }
+            >
+              삭제
+            </button>
           </CommentSecondLine>
         </CommentLine>
         <div>{props.contents}</div>

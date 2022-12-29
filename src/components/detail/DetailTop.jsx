@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -6,9 +6,10 @@ import "slick-carousel/slick/slick-theme.css";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsShare } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { __getDetail } from "../../redux/modules/detailSlice";
+import { __getDetail, __detailDelete } from "../../redux/modules/detailSlice";
 import { useParams } from "react-router-dom";
 import { category } from "../feature/category";
+import DetailMoney from "./DetailMoney";
 
 const DetailTop = () => {
   // 슬라이더 기본 셋팅
@@ -24,21 +25,39 @@ const DetailTop = () => {
   const { id } = useParams();
   useEffect(() => {
     dispatch(__getDetail(id));
-  }, []);
+  }, [dispatch, id]);
 
   const detailView = useSelector((state) => state.details.detail);
 
-  const startDay = detailView?.startDate?.split("T", 1)[0];
-  const endDay = detailView?.endDate?.split("T", 1)[0];
+  const moveRef = useRef();
 
-  const DayMinus = Number(
-    startDay?.replace(/\-/g, "") - endDay?.replace(/\-/g, "")
-  );
+  const onClickSupportMove = () => {
+    moveRef.current.focus(<DetailMoney />);
+  };
+
+  // const startDay = detailView?.startDate?.split("T", 1)[0];
+  // const endDay = detailView?.endDate?.split("T", 1)[0];
+
+  // const DayMinus = Number(
+  //   startDay?.replace(/\-/g, "") - endDay?.replace(/\-/g, "")
+  // );
+
+  const onClickDetailDelete = () => {
+    dispatch(__detailDelete(id));
+  };
 
   // console.log(category[`${detailView?.category}`]); 카테고리 값 불러오기
   return (
     <DetailTopTotal>
-      <DetailCategory>{category[`${detailView?.category}`]}</DetailCategory>
+      <UpDiv>
+        <DIVTOP>
+          <DetailCategory>{category[`${detailView?.category}`]}</DetailCategory>
+        </DIVTOP>
+        <DelUpBtn>
+          <button>수정</button>
+          <button onClick={() => onClickDetailDelete(id)}>삭제</button>
+        </DelUpBtn>
+      </UpDiv>
       <DetailTitle>{detailView?.title}</DetailTitle>
       <DetailBox>
         <StyleSlider {...settings}>
@@ -62,7 +81,7 @@ const DetailTop = () => {
           </DetailTopLine1>
           <SubTitle>남은시간</SubTitle>
           <DetailTopLine1>
-            <DetailTopIn>{DayMinus}</DetailTopIn>
+            <DetailTopIn>일수</DetailTopIn>
             <Won>일</Won>
           </DetailTopLine1>
           <SubTitle>후원자</SubTitle>
@@ -82,7 +101,7 @@ const DetailTop = () => {
                 {detailView?.startDate?.split("T", 1)} ~
                 {detailView?.endDate?.split("T", 1)}
               </div>
-              <h6>{DayMinus}일남음</h6>
+              <h6>일남음</h6>
             </RightDownView>
           </div>
           <BottomButtonTotal>
@@ -93,7 +112,7 @@ const DetailTop = () => {
             <BottomButton1>
               <BsShare />
             </BottomButton1>
-            <BottomButton2>
+            <BottomButton2 onClick={() => onClickSupportMove}>
               <h2>이 프로젝트 후원하기</h2>
             </BottomButton2>
           </BottomButtonTotal>
@@ -123,6 +142,36 @@ const StyleSlider = styled(Slider)`
     color: #aaaaaa;
     -webkit-font-smoothing: antialiased;
   }
+`;
+
+const DIVTOP = styled.div`
+  width: 650px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+`;
+
+const UpDiv = styled.div`
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+  button {
+    width: 60px;
+    height: 32px;
+    margin-top: 70px;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    :hover {
+      border: 1px solid black;
+    }
+  }
+`;
+
+const DelUpBtn = styled.div`
+  width: 470px;
+  display: flex;
+  justify-content: right;
+  gap: 20px;
 `;
 
 const DetailHr = styled.hr`
@@ -213,7 +262,7 @@ const DetailTopTotal = styled.div`
 
 const DetailCategory = styled.h3`
   font-size: 13px;
-  width: 80px;
+  width: 100px;
   height: 30px;
   border: 1px solid rgb(239, 239, 239);
   background-color: rgb(250, 250, 250);

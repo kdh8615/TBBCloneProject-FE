@@ -13,7 +13,7 @@ const DetailComment = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const commentList = useSelector((state) => state.comments.comment);
-
+  console.log("1", commentList);
   const [writeComment, setWriteComment] = useState({
     detailId: parseInt(id),
     contents: "",
@@ -38,10 +38,6 @@ const DetailComment = () => {
     }
   };
 
-  const onClickDeleteComment = (id) => {
-    dispatch(__delComments(id));
-  };
-
   return (
     <div>
       <CommentWrite>
@@ -61,7 +57,6 @@ const DetailComment = () => {
             <DetailUpdate
               key={List.id}
               id={List.commentId}
-              del={onClickDeleteComment}
               commentId={List.commentId}
               contents={List.contents}
               nickname={List.nickname}
