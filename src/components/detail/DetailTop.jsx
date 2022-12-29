@@ -7,9 +7,10 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BsShare } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { __getDetail, __detailDelete } from "../../redux/modules/detailSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { category } from "../feature/category";
-import DetailMoney from "./DetailMoney";
+import { diffDate } from "../feature/dateCalc";
+import { Link } from "react-scroll";
 
 const DetailTop = () => {
   // 슬라이더 기본 셋팅
@@ -28,24 +29,17 @@ const DetailTop = () => {
   }, [dispatch, id]);
 
   const detailView = useSelector((state) => state.details.detail);
+  console.log(detailView);
 
-  const moveRef = useRef();
-
-  const onClickSupportMove = () => {
-    moveRef.current.focus(<DetailMoney />);
-  };
-
-  // const startDay = detailView?.startDate?.split("T", 1)[0];
-  // const endDay = detailView?.endDate?.split("T", 1)[0];
-
-  // const DayMinus = Number(
-  //   startDay?.replace(/\-/g, "") - endDay?.replace(/\-/g, "")
-  // );
+  const navigate = useNavigate();
 
   const onClickDetailDelete = () => {
     dispatch(__detailDelete(id));
+    alert("삭제되었습니다");
+    navigate("/", { replace: true });
   };
 
+  const date = diffDate(detailView?.endDate);
   // console.log(category[`${detailView?.category}`]); 카테고리 값 불러오기
   return (
     <DetailTopTotal>
@@ -70,18 +64,22 @@ const DetailTop = () => {
         <DetailRight>
           <div style={{ fontSize: "15px" }}>모인금액</div>
           <DetailTopLine1>
-            <DetailTopIn>{detailView?.totalSupport}</DetailTopIn>
+            <DetailTopIn>
+              {parseInt(detailView?.totalSupport)?.toLocaleString()}
+            </DetailTopIn>
             <Won>원</Won>
             <WonPersent>
-              {(Number(detailView?.totalSupport) /
-                Number(detailView?.goalPrice)) *
-                100}
+              {(
+                (Number(detailView?.totalSupport) /
+                  Number(detailView?.goalPrice)) *
+                100
+              ).toFixed()}
               %
             </WonPersent>
           </DetailTopLine1>
           <SubTitle>남은시간</SubTitle>
           <DetailTopLine1>
-            <DetailTopIn>일수</DetailTopIn>
+            <DetailTopIn>{date?.split("일", 1)}</DetailTopIn>
             <Won>일</Won>
           </DetailTopLine1>
           <SubTitle>후원자</SubTitle>
@@ -93,7 +91,7 @@ const DetailTop = () => {
           <div>
             <RightDownView>
               <h5>목표금액</h5>
-              <div>{detailView?.goalPrice}원</div>
+              <div>{detailView?.goalPrice?.toLocaleString()}원</div>
             </RightDownView>
             <RightDownView>
               <h5>펀딩기간</h5>
@@ -101,7 +99,7 @@ const DetailTop = () => {
                 {detailView?.startDate?.split("T", 1)} ~
                 {detailView?.endDate?.split("T", 1)}
               </div>
-              <h6>일남음</h6>
+              <h6>{date}</h6>
             </RightDownView>
           </div>
           <BottomButtonTotal>
@@ -112,9 +110,11 @@ const DetailTop = () => {
             <BottomButton1>
               <BsShare />
             </BottomButton1>
-            <BottomButton2 onClick={() => onClickSupportMove}>
-              <h2>이 프로젝트 후원하기</h2>
-            </BottomButton2>
+            <Link to="MoveMoney" spy={true} smooth={true}>
+              <BottomButton2>
+                <h2>이 프로젝트 후원하기</h2>
+              </BottomButton2>
+            </Link>
           </BottomButtonTotal>
         </DetailRight>
       </DetailBox>
