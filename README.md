@@ -39,3 +39,9 @@
 
 <img src="https://velog.velcdn.com/images/koz8615/post/cecad0bd-a19e-4eb4-a311-9377f3289cb9/image.png">
 <img src="https://velog.velcdn.com/images/koz8615/post/2f1237e8-d2cc-43e9-bc04-066b4eb81fa3/image.png">
+
+## 작성페이지
+프로젝트 계획 작성 및 이미지 업로드, 시간 설정 등을 구현해 보았습니다.
+
+<img src="https://velog.velcdn.com/images/koz8615/post/74a9fe45-2202-46a8-a82f-819a9a52836f/image.png">
+<img src="https://velog.velcdn.com/images/koz8615/post/d38bb94e-df63-4d88-83fc-a47df3629907/image.png">
